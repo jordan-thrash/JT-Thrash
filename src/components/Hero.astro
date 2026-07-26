@@ -1,25 +1,12 @@
 ---
 import { hero, contact } from '../data/site';
-
-interface Props {
-  /** Year span of the work in the index, e.g. "2019—2024". */
-  range?: string;
-}
-
-const { range } = Astro.props;
 ---
 
 <section class="hero">
   <div class="container-page">
-    {/* Running metadata. Deliberately does not repeat the name or the role —
-        the site header already carries both, one line above this. */}
-    <div class="masthead meta">
-      <span>Selected work</span>
-      {range && <span class="masthead-range">{range}</span>}
-      <span class="masthead-spacer"></span>
-      <span class="masthead-tail">{hero.spec}</span>
-    </div>
-
+    {/* The headline is the first thing on the page. There was a metadata rule
+        above it, but a second band of small-caps type directly under the site
+        header just read as a second header. */}
     <h1 class="hero-headline display">
       {
         hero.headline.map((line) => (
@@ -49,40 +36,11 @@ const { range } = Astro.props;
 
 <style>
   .hero {
-    padding-top: clamp(3.5rem, 9vw, 7rem);
+    padding-top: clamp(4rem, 11vw, 9rem);
     padding-bottom: clamp(3rem, 7vw, 5rem);
   }
 
-  .masthead {
-    display: flex;
-    align-items: baseline;
-    gap: 0.6rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid var(--ink);
-    color: var(--ink);
-  }
-
-  .masthead-range {
-    color: var(--ink-faint);
-  }
-
-  .masthead-spacer {
-    flex: 1;
-  }
-
-  .masthead-tail {
-    color: var(--ink-faint);
-    display: none;
-  }
-
-  @media (min-width: 768px) {
-    .masthead-tail {
-      display: inline;
-    }
-  }
-
   .hero-headline {
-    margin-top: clamp(2rem, 5vw, 3.5rem);
     /* Big. This is the one place on the site where type is the entire design. */
     font-size: clamp(2.75rem, 10vw, 8.5rem);
     max-width: 13ch;

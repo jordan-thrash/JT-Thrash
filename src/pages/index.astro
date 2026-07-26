@@ -9,17 +9,10 @@ import { about, experience, education, contact } from '../data/site';
 const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.order - a.data.order
 );
-
-// Year span of the index, shown in the hero's masthead rule. Derived rather
-// than hard-coded so it stays right as projects come and go.
-const years = projects.map((project) => Number(project.data.year)).filter(Number.isFinite);
-const range = years.length
-  ? `${Math.min(...years)}—${Math.max(...years)}`
-  : undefined;
 ---
 
 <Base>
-  <Hero range={range} />
+  <Hero />
 
   <!-- Work ------------------------------------------------------------ -->
   <section id="work" class="section">

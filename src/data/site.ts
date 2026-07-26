@@ -31,8 +31,6 @@ export const site = {
  */
 export const hero = {
   headline: ['I build the', '<em>whole</em> system.'],
-  /** Running metadata in the masthead rule. Keep it terse and factual. */
-  spec: 'Apps · Backends · Platforms · Games',
   lede: "Apps, backends, platforms, games. Some of it pays the bills, some of it exists because I wanted it to. Either way I'd rather own the whole system than one layer of it.",
 } as const;
 
