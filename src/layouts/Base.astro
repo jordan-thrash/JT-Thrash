@@ -1,0 +1,132 @@
+---
+import '../styles/global.css';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { site, contact, experience } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Set on project pages so the canonical/OG URL points at the article. */
+  path?: string;
+  ogType?: 'website' | 'article';
+}
+
+const {
+  title,
+  description = site.description,
+  path = Astro.url.pathname,
+  ogType = 'website',
+} = Astro.props;
+
+const pageTitle = title ? `${title} — ${site.name}` : `${site.name} — ${site.role}`;
+const canonical = new URL(path, Astro.site ?? Astro.url).toString();
+const ogImage = new URL('/og.png', Astro.site ?? Astro.url).toString();
+
+// Current employer for structured data: the first role with no end date.
+const currentRole = experience.find((role) => role.end === null);
+
+const personSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  url: site.url,
+  jobTitle: site.role,
+  email: `mailto:${contact.email}`,
+  ...(currentRole ? { worksFor: { '@type': 'Organization', name: currentRole.company } } : {}),
+  sameAs: contact.links.map((link) => link.href),
+};
+---
+
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href={canonical} />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={site.name} />
+    <meta name="theme-color" content="#0f1013" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)" />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:site_name" content={site.name} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    {/* Must stay inline and un-bundled so it runs before first paint — otherwise
+        the page flashes the wrong theme on load. */}
+    <script is:inline>
+      (function () {
+        try {
+          var stored = localStorage.getItem('theme');
+          var prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+          document.documentElement.dataset.theme = stored || (prefersLight ? 'light' : 'dark');
+        } catch (e) {
+          document.documentElement.dataset.theme = 'dark';
+        }
+        // Gates the scroll-reveal CSS: without JS, nothing is ever hidden.
+        document.documentElement.classList.add('js-reveal');
+      })();
+    </script>
+
+    <script is:inline type="application/ld+json" set:html={JSON.stringify(personSchema)} />
+  </head>
+
+  <body>
+    <a
+      href="#main"
+      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-100 focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-accent-contrast"
+    >
+      Skip to content
+    </a>
+
+    <SiteHeader />
+
+    <main id="main">
+      <slot />
+    </main>
+
+    <SiteFooter />
+
+    <script>
+      // Scroll reveal. Elements are only hidden once `js-reveal` is on the
+      // documentElement (set in the head script), so this failing leaves the
+      // page fully readable rather than blank.
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      const targets = document.querySelectorAll<HTMLElement>('[data-reveal]');
+
+      if (reduceMotion || !('IntersectionObserver' in window)) {
+        targets.forEach((el) => el.classList.add('is-revealed'));
+      } else {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (!entry.isIntersecting) continue;
+              entry.target.classList.add('is-revealed');
+              observer.unobserve(entry.target);
+            }
+          },
+          { rootMargin: '0px 0px -12% 0px', threshold: 0.1 }
+        );
+
+        targets.forEach((el, i) => {
+          // Stagger siblings so a row of cards cascades instead of popping in.
+          const index = Number(el.dataset.revealIndex ?? i % 6);
+          el.style.setProperty('--reveal-delay', `${Math.min(index, 6) * 70}ms`);
+          observer.observe(el);
+        });
+      }
+    </script>
+  </body>
+</html>

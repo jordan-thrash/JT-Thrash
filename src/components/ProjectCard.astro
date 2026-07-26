@@ -1,0 +1,265 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  project: CollectionEntry<'projects'>;
+  /** `feature` renders a large card; `compact` a smaller one for the grid tail. */
+  variant?: 'feature' | 'compact';
+  revealIndex?: number;
+}
+
+const { project, variant = 'compact', revealIndex = 0 } = Astro.props;
+const { title, summary, kind, year, tech, cover } = project.data;
+
+const href = `/work/${project.id}`;
+const isFeature = variant === 'feature';
+
+// Feature cards can afford to list more of the stack before it gets noisy.
+const visibleTech = tech.slice(0, isFeature ? 4 : 3);
+const overflowCount = tech.length - visibleTech.length;
+---
+
+<article class:list={['card', isFeature ? 'card-feature' : 'card-compact']} data-reveal data-reveal-index={revealIndex}>
+  <a href={href} class="card-link">
+    <div class="card-media">
+      {
+        cover && (
+          <Image
+            src={cover}
+            alt={`${title} cover image`}
+            widths={isFeature ? [480, 720, 960] : [360, 540, 720]}
+            sizes={
+              isFeature
+                ? '(min-width: 768px) 45vw, 92vw'
+                : '(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 92vw'
+            }
+            loading="lazy"
+            decoding="async"
+            class="card-image"
+            style={`view-transition-name: cover-${project.id}`}
+          />
+        )
+      }
+      <span class="card-kind" data-kind={kind}>{kind}</span>
+    </div>
+
+    <div class="card-body">
+      <div class="card-heading">
+        <h3 class="card-title">{title}</h3>
+        <span class="card-year label">{year}</span>
+      </div>
+
+      <p class="card-summary">{summary}</p>
+
+      <ul class="card-tech" aria-label="Built with">
+        {visibleTech.map((item) => <li>{item}</li>)}
+        {overflowCount > 0 && <li class="card-tech-more">+{overflowCount}</li>}
+      </ul>
+    </div>
+
+    <span class="card-arrow" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M7 17 17 7M9 7h8v8"></path>
+      </svg>
+    </span>
+  </a>
+</article>
+
+<style>
+  .card {
+    position: relative;
+    border-radius: var(--radius);
+    border: 1px solid var(--line);
+    background: var(--bg-elevated);
+    overflow: hidden;
+    transition:
+      border-color 0.35s var(--ease-out-expo),
+      transform 0.35s var(--ease-out-expo),
+      box-shadow 0.35s var(--ease-out-expo);
+  }
+
+  .card:hover {
+    border-color: var(--line-strong);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-card);
+  }
+
+  .card-link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  /* The whole card is the hit area; the anchor covers it. */
+  .card-link::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  .card-media {
+    position: relative;
+    aspect-ratio: 3 / 2;
+    overflow: hidden;
+    background: var(--surface);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .card-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition:
+      scale 0.6s var(--ease-out-expo),
+      filter 0.4s ease;
+  }
+
+  .card:hover .card-image {
+    scale: 1.04;
+  }
+
+  .card-kind {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 0.3rem 0.55rem;
+    border-radius: 0.375rem;
+    backdrop-filter: blur(8px);
+    border: 1px solid;
+  }
+
+  /* Chip hues match the generated cover artwork for each category. */
+  .card-kind[data-kind='Game'] {
+    color: hsl(42 92% 68%);
+    border-color: hsl(42 60% 50% / 0.35);
+    background: hsl(42 60% 20% / 0.55);
+  }
+  .card-kind[data-kind='Tool'] {
+    color: hsl(190 85% 68%);
+    border-color: hsl(190 60% 50% / 0.35);
+    background: hsl(190 60% 18% / 0.55);
+  }
+  .card-kind[data-kind='Web'] {
+    color: hsl(280 80% 76%);
+    border-color: hsl(280 55% 55% / 0.35);
+    background: hsl(280 50% 20% / 0.55);
+  }
+  .card-kind[data-kind='Backend'] {
+    color: hsl(150 70% 66%);
+    border-color: hsl(150 50% 45% / 0.35);
+    background: hsl(150 50% 16% / 0.55);
+  }
+
+  .card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+    padding: 1.25rem;
+    flex: 1;
+  }
+
+  .card-feature .card-body {
+    padding: 1.5rem;
+    gap: 0.75rem;
+  }
+
+  .card-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .card-title {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--fg);
+    transition: color 0.25s ease;
+  }
+
+  .card-feature .card-title {
+    font-size: 1.5rem;
+  }
+
+  .card:hover .card-title {
+    color: var(--accent);
+  }
+
+  .card-year {
+    flex-shrink: 0;
+  }
+
+  .card-summary {
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--fg-muted);
+    flex: 1;
+  }
+
+  .card-feature .card-summary {
+    font-size: 1rem;
+  }
+
+  .card-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    margin-top: 0.25rem;
+  }
+
+  .card-tech li {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--fg-subtle);
+    border: 1px solid var(--line);
+    border-radius: 0.375rem;
+    padding: 0.2rem 0.45rem;
+    background: var(--surface);
+  }
+
+  .card-tech-more {
+    color: var(--fg-subtle);
+    opacity: 0.75;
+  }
+
+  .card-arrow {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--line);
+    background: color-mix(in oklab, var(--bg) 70%, transparent);
+    backdrop-filter: blur(8px);
+    color: var(--fg-muted);
+    opacity: 0;
+    translate: 0 -4px;
+    transition:
+      opacity 0.3s var(--ease-out-expo),
+      translate 0.3s var(--ease-out-expo),
+      color 0.3s ease,
+      border-color 0.3s ease;
+  }
+
+  .card-arrow svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  .card:hover .card-arrow,
+  .card:focus-within .card-arrow {
+    opacity: 1;
+    translate: 0 0;
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+</style>

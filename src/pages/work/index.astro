@@ -1,0 +1,155 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+
+const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.order - a.data.order
+);
+
+// Only offer filters for categories that actually have projects in them.
+const kinds = [...new Set(projects.map((project) => project.data.kind))].sort();
+---
+
+<Base
+  title="Work"
+  description="Every game and tool I've shipped — Unity, C#, procedural generation, physics and VR."
+>
+  <div class="page">
+    <div class="container-page">
+      <SectionHeading
+        eyebrow="Work"
+        title="Everything I've shipped"
+        lede="Games, simulations and developer tools. Filter by type, or open any project for the write-up."
+      />
+
+      {
+        kinds.length > 1 && (
+          <div class="filters" role="group" aria-label="Filter projects by type">
+            <button type="button" class="filter is-active" data-filter="all" aria-pressed="true">
+              All
+              <span class="filter-count">{projects.length}</span>
+            </button>
+            {kinds.map((kind) => (
+              <button type="button" class="filter" data-filter={kind} aria-pressed="false">
+                {kind}
+                <span class="filter-count">
+                  {projects.filter((project) => project.data.kind === kind).length}
+                </span>
+              </button>
+            ))}
+          </div>
+        )
+      }
+
+      <div class="grid" id="project-grid">
+        {
+          projects.map((project, index) => (
+            <div data-kind={project.data.kind} class="grid-cell">
+              <ProjectCard project={project} revealIndex={index} />
+            </div>
+          ))
+        }
+      </div>
+
+      <p class="empty" id="empty-state" hidden>Nothing in that category yet.</p>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .page {
+    padding-top: 9rem;
+    padding-bottom: 4rem;
+  }
+
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 2.5rem;
+  }
+
+  .filter {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    padding: 0.5rem 0.9rem;
+    border: 1px solid var(--line);
+    border-radius: 99px;
+    font-size: 0.875rem;
+    color: var(--fg-muted);
+    background: var(--bg-elevated);
+    transition:
+      border-color 0.25s ease,
+      color 0.25s ease,
+      background-color 0.25s ease;
+  }
+
+  .filter:hover {
+    border-color: var(--line-strong);
+    color: var(--fg);
+  }
+
+  .filter.is-active {
+    border-color: var(--accent);
+    color: var(--accent);
+    background: var(--accent-glow);
+  }
+
+  .filter-count {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--fg-subtle);
+  }
+
+  .filter.is-active .filter-count {
+    color: var(--accent);
+  }
+
+  .grid {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: 2.5rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  }
+
+  .grid-cell[hidden] {
+    display: none;
+  }
+
+  .empty {
+    margin-top: 3rem;
+    text-align: center;
+    color: var(--fg-subtle);
+    font-size: 0.9375rem;
+  }
+</style>
+
+<script>
+  const filters = document.querySelectorAll<HTMLButtonElement>('.filter');
+  const cells = document.querySelectorAll<HTMLElement>('.grid-cell');
+  const empty = document.getElementById('empty-state');
+
+  filters.forEach((button) => {
+    button.addEventListener('click', () => {
+      const selected = button.dataset.filter;
+
+      filters.forEach((other) => {
+        const active = other === button;
+        other.classList.toggle('is-active', active);
+        other.setAttribute('aria-pressed', String(active));
+      });
+
+      let visible = 0;
+      cells.forEach((cell) => {
+        const match = selected === 'all' || cell.dataset.kind === selected;
+        cell.hidden = !match;
+        if (match) visible++;
+      });
+
+      if (empty) empty.hidden = visible > 0;
+    });
+  });
+</script>

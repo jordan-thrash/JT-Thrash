@@ -1,0 +1,222 @@
+---
+import ThemeToggle from './ThemeToggle.astro';
+import { site, nav } from '../data/site';
+---
+
+<header id="site-header" class="site-header" data-scrolled="false">
+  <div class="header-bar">
+    <div class="container-page flex h-16 items-center justify-between gap-4 md:h-[4.5rem]">
+      <a
+        href="/"
+        class="group flex items-center gap-2.5 rounded-md text-sm font-semibold tracking-tight"
+        aria-label={`${site.name} — home`}
+      >
+        <span class="mark" aria-hidden="true">JT</span>
+        <span class="hidden sm:inline">{site.name}</span>
+      </a>
+
+      <div class="flex items-center gap-1">
+        <nav aria-label="Primary" class="hidden items-center md:flex">
+          {
+            nav.map((item) => (
+              <a
+                href={item.href}
+                class="rounded-md px-3 py-2 text-sm text-muted transition-colors duration-200 hover:text-fg"
+              >
+                {item.label}
+              </a>
+            ))
+          }
+        </nav>
+
+        <div class="mx-1 hidden h-5 w-px bg-line md:block" aria-hidden="true"></div>
+
+        <ThemeToggle />
+
+        <button
+          type="button"
+          id="menu-button"
+          class="icon-button menu-button"
+          aria-label="Open menu"
+          aria-expanded="false"
+          aria-controls="mobile-menu"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.75"
+            stroke-linecap="round"
+            class="size-[18px]"
+            aria-hidden="true"
+          >
+            <line x1="3" y1="8" x2="21" y2="8"></line>
+            <line x1="3" y1="16" x2="21" y2="16"></line>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- grid-rows trick: animates open to the menu's natural height -->
+  <div id="mobile-menu" class="mobile-menu" data-open="false">
+    <nav aria-label="Mobile" class="min-h-0">
+      <ul class="container-page flex flex-col py-2">
+        {
+          nav.map((item) => (
+            <li class="menu-item">
+              <a
+                href={item.href}
+                class="block py-3.5 text-base text-muted transition-colors hover:text-fg"
+                data-menu-link
+              >
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: fixed;
+    inset-inline: 0;
+    top: 0;
+    z-index: 50;
+  }
+
+  .header-bar {
+    border-bottom: 1px solid transparent;
+    transition:
+      background-color 0.3s ease,
+      border-color 0.3s ease,
+      backdrop-filter 0.3s ease;
+  }
+
+  .site-header[data-scrolled='true'] .header-bar {
+    border-bottom-color: var(--line);
+    background-color: color-mix(in oklab, var(--bg) 80%, transparent);
+    backdrop-filter: blur(16px) saturate(1.4);
+  }
+
+  .mark {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--line);
+    background: var(--surface);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: var(--accent);
+    transition:
+      border-color 0.3s ease,
+      box-shadow 0.3s ease;
+  }
+
+  .group:hover .mark {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-glow);
+  }
+
+  .icon-button {
+    display: grid;
+    place-items: center;
+    width: 2.25rem;
+    height: 2.25rem;
+    border-radius: 0.5rem;
+    border: 1px solid var(--line);
+    color: var(--fg-muted);
+    transition:
+      border-color 0.2s ease,
+      color 0.2s ease;
+  }
+
+  .icon-button:hover {
+    border-color: var(--line-strong);
+    color: var(--fg);
+  }
+
+  /* The breakpoint lives here rather than in a Tailwind `md:hidden` utility:
+     these rules set `display` themselves, and at equal specificity the scoped
+     styles would win over the utility. */
+  @media (min-width: 768px) {
+    .menu-button,
+    .mobile-menu {
+      display: none;
+    }
+  }
+
+  .mobile-menu {
+    display: grid;
+    grid-template-rows: 0fr;
+    overflow: hidden;
+    border-bottom: 1px solid transparent;
+    background: color-mix(in oklab, var(--bg) 95%, transparent);
+    backdrop-filter: blur(16px);
+    transition:
+      grid-template-rows 0.4s var(--ease-out-expo),
+      border-color 0.4s ease;
+  }
+
+  .mobile-menu[data-open='true'] {
+    grid-template-rows: 1fr;
+    border-bottom-color: var(--line);
+  }
+
+  .menu-item {
+    border-bottom: 1px solid color-mix(in oklab, var(--line) 60%, transparent);
+  }
+
+  .menu-item:last-child {
+    border-bottom: 0;
+  }
+</style>
+
+<script>
+  const header = document.getElementById('site-header');
+  const button = document.getElementById('menu-button');
+  const menu = document.getElementById('mobile-menu');
+
+  // Border + blur only appear once the page has scrolled off the top.
+  if (header) {
+    const onScroll = () => {
+      header.dataset.scrolled = String(window.scrollY > 8);
+    };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  }
+
+  if (button && menu) {
+    const setOpen = (open: boolean) => {
+      menu.dataset.open = String(open);
+      button.setAttribute('aria-expanded', String(open));
+      button.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+    };
+
+    button.addEventListener('click', () => {
+      setOpen(menu.dataset.open !== 'true');
+    });
+
+    menu.querySelectorAll('[data-menu-link]').forEach((link) => {
+      link.addEventListener('click', () => setOpen(false));
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && menu.dataset.open === 'true') {
+        setOpen(false);
+        button.focus();
+      }
+    });
+
+    // Reset state if the viewport grows past the mobile breakpoint.
+    window.matchMedia('(min-width: 768px)').addEventListener('change', (event) => {
+      if (event.matches) setOpen(false);
+    });
+  }
+</script>

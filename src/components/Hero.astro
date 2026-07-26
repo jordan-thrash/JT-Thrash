@@ -1,0 +1,349 @@
+---
+import { hero, contact } from '../data/site';
+---
+
+<section class="hero grid-bg" id="hero">
+  <!-- Follows the pointer on fine-pointer devices; static everywhere else. -->
+  <div class="hero-spotlight" aria-hidden="true"></div>
+
+  <div class="container-page hero-inner">
+    <p class="label hero-eyebrow">
+      <span class="hero-dot" aria-hidden="true"></span>
+      {hero.eyebrow}
+    </p>
+
+    <h1 class="hero-headline">
+      {
+        hero.headline.map((line, index) => (
+          <span class="hero-line" style={`--line-index: ${index}`}>
+            <span class="hero-line-inner">{line}</span>
+          </span>
+        ))
+      }
+    </h1>
+
+    <p class="hero-lede">{hero.lede}</p>
+
+    <div class="hero-actions">
+      <a href="#work" class="button button-primary">
+        See the work
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 5v14M19 12l-7 7-7-7"></path>
+        </svg>
+      </a>
+      <a href={`mailto:${contact.email}`} class="button button-ghost">Get in touch</a>
+    </div>
+
+    <dl class="hero-stats">
+      {
+        hero.stats.map((stat) => (
+          <div class="hero-stat">
+            <dt class="hero-stat-value">{stat.value}</dt>
+            <dd class="hero-stat-label">{stat.label}</dd>
+          </div>
+        ))
+      }
+    </dl>
+  </div>
+
+  <a href="#work" class="hero-scroll" aria-label="Scroll to work">
+    <span class="hero-scroll-track" aria-hidden="true"><span class="hero-scroll-thumb"></span></span>
+  </a>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    min-height: 100svh;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    padding-block: 8rem 6rem;
+  }
+
+  /* Fades the blueprint grid out toward the bottom of the section. */
+  .hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, transparent 55%, var(--bg) 100%);
+    pointer-events: none;
+  }
+
+  .hero-spotlight {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      36rem 36rem at var(--spot-x, 70%) var(--spot-y, 22%),
+      var(--accent-glow),
+      transparent 70%
+    );
+    transition: background 0.5s ease-out;
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .hero-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 1.75rem;
+    animation: fade-up 0.8s var(--ease-out-expo) both;
+  }
+
+  .hero-dot {
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: 99px;
+    background: var(--accent);
+    box-shadow: 0 0 0 4px var(--accent-glow);
+    animation: pulse 2.6s ease-in-out infinite;
+  }
+
+  .hero-headline {
+    font-size: clamp(2.75rem, 9vw, 5.75rem);
+    font-weight: 700;
+    line-height: 1.02;
+    letter-spacing: -0.04em;
+    color: var(--fg);
+    max-width: 18ch;
+  }
+
+  /* Each line masks its own reveal, so the text wipes up from the baseline. */
+  .hero-line {
+    display: block;
+    overflow: hidden;
+  }
+
+  .hero-line-inner {
+    display: block;
+    animation: line-up 1s var(--ease-out-expo) both;
+    animation-delay: calc(var(--line-index) * 0.11s + 0.1s);
+  }
+
+  /* Last line takes the accent colour to close the sentence. */
+  .hero-line:last-child .hero-line-inner {
+    color: var(--accent);
+  }
+
+  .hero-lede {
+    margin-top: 1.75rem;
+    max-width: 42rem;
+    font-size: clamp(1rem, 1.6vw, 1.1875rem);
+    line-height: 1.7;
+    color: var(--fg-muted);
+    animation: fade-up 0.9s var(--ease-out-expo) 0.42s both;
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 2.5rem;
+    animation: fade-up 0.9s var(--ease-out-expo) 0.54s both;
+  }
+
+  .button {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    height: 2.875rem;
+    padding-inline: 1.375rem;
+    border-radius: 0.625rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    border: 1px solid transparent;
+    transition:
+      background-color 0.25s ease,
+      border-color 0.25s ease,
+      color 0.25s ease,
+      transform 0.25s var(--ease-out-expo);
+  }
+
+  .button svg {
+    width: 16px;
+    height: 16px;
+    transition: translate 0.3s var(--ease-out-expo);
+  }
+
+  .button:hover {
+    transform: translateY(-2px);
+  }
+
+  .button-primary {
+    background: var(--accent);
+    color: var(--accent-contrast);
+    font-weight: 600;
+  }
+
+  .button-primary:hover {
+    background: var(--accent-hover);
+  }
+
+  .button-primary:hover svg {
+    translate: 0 3px;
+  }
+
+  .button-ghost {
+    border-color: var(--line-strong);
+    color: var(--fg);
+  }
+
+  .button-ghost:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  .hero-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2.5rem;
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--line);
+    width: 100%;
+    max-width: 34rem;
+    animation: fade-up 0.9s var(--ease-out-expo) 0.66s both;
+  }
+
+  .hero-stat-value {
+    font-size: 1.75rem;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    color: var(--fg);
+  }
+
+  .hero-stat-label {
+    margin-top: 0.2rem;
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--fg-subtle);
+  }
+
+  .hero-scroll {
+    position: absolute;
+    bottom: 2rem;
+    left: 50%;
+    translate: -50% 0;
+    z-index: 1;
+    display: none;
+    animation: fade-up 1s var(--ease-out-expo) 1s both;
+  }
+
+  @media (min-height: 700px) and (min-width: 768px) {
+    .hero-scroll {
+      display: block;
+    }
+  }
+
+  .hero-scroll-track {
+    display: block;
+    width: 1.5rem;
+    height: 2.375rem;
+    border: 1px solid var(--line-strong);
+    border-radius: 99px;
+    position: relative;
+    transition: border-color 0.25s ease;
+  }
+
+  .hero-scroll:hover .hero-scroll-track {
+    border-color: var(--accent);
+  }
+
+  .hero-scroll-thumb {
+    position: absolute;
+    top: 0.4rem;
+    left: 50%;
+    translate: -50% 0;
+    width: 0.25rem;
+    height: 0.45rem;
+    border-radius: 99px;
+    background: var(--fg-subtle);
+    animation: scroll-hint 2s ease-in-out infinite;
+  }
+
+  @keyframes line-up {
+    from {
+      transform: translateY(105%);
+    }
+  }
+
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(0.75rem);
+    }
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.35;
+    }
+  }
+
+  @keyframes scroll-hint {
+    0% {
+      opacity: 0;
+      translate: -50% 0;
+    }
+    35% {
+      opacity: 1;
+    }
+    70%,
+    100% {
+      opacity: 0;
+      translate: -50% 0.85rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .hero-line-inner,
+    .hero-eyebrow,
+    .hero-lede,
+    .hero-actions,
+    .hero-stats,
+    .hero-scroll {
+      animation: none;
+      opacity: 1;
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  // The spotlight tracks the pointer, but only where a pointer actually exists
+  // and motion is welcome. rAF-throttled so it never runs more than once a frame.
+  const supportsHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const hero = document.getElementById('hero');
+  const spotlight = hero?.querySelector<HTMLElement>('.hero-spotlight');
+
+  if (hero && spotlight && supportsHover && !reduceMotion) {
+    let frame = 0;
+
+    hero.addEventListener('pointermove', (event) => {
+      if (frame) return;
+      frame = requestAnimationFrame(() => {
+        frame = 0;
+        const rect = hero.getBoundingClientRect();
+        const x = ((event.clientX - rect.left) / rect.width) * 100;
+        const y = ((event.clientY - rect.top) / rect.height) * 100;
+        spotlight.style.setProperty('--spot-x', `${x.toFixed(1)}%`);
+        spotlight.style.setProperty('--spot-y', `${y.toFixed(1)}%`);
+      });
+    });
+  }
+</script>

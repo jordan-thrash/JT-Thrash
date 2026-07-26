@@ -1,0 +1,485 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { about, experience, education, contact } from '../data/site';
+
+const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.order - a.data.order
+);
+
+const featured = projects.filter((project) => project.data.featured);
+const rest = projects.filter((project) => !project.data.featured);
+---
+
+<Base>
+  <Hero />
+
+  <!-- Work ------------------------------------------------------------ -->
+  <section id="work" class="section">
+    <div class="container-page">
+      <SectionHeading
+        eyebrow="01 — Work"
+        title="Games and tools I've shipped"
+        lede="Each project started as an excuse to build a system I hadn't built before. Open any one for the write-up."
+      />
+
+      {
+        featured.length > 0 && (
+          <div class="grid-feature">
+            {featured.map((project, index) => (
+              <ProjectCard project={project} variant="feature" revealIndex={index} />
+            ))}
+          </div>
+        )
+      }
+
+      {
+        rest.length > 0 && (
+          <>
+            <h3 class="label subgrid-label" data-reveal>
+              More projects
+            </h3>
+            <div class="grid-compact">
+              {rest.map((project, index) => (
+                <ProjectCard project={project} revealIndex={index} />
+              ))}
+            </div>
+          </>
+        )
+      }
+    </div>
+  </section>
+
+  <!-- About ----------------------------------------------------------- -->
+  <section id="about" class="section">
+    <div class="container-page">
+      <div class="about-layout">
+        <div class="about-intro">
+          <SectionHeading eyebrow="02 — About" title="Why games" />
+        </div>
+
+        <div class="about-body">
+          {about.paragraphs.map((paragraph, index) => (
+            <p class="about-paragraph" data-reveal data-reveal-index={index}>
+              {paragraph}
+            </p>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills ---------------------------------------------------------- -->
+  <section id="skills" class="section">
+    <div class="container-page">
+      <SectionHeading eyebrow="03 — Skills" title="What I work with" />
+
+      <div class="stack-grid">
+        {
+          about.stack.map((group, index) => (
+            <div class="stack-group" data-reveal data-reveal-index={index}>
+              <h3 class="stack-area">{group.area}</h3>
+              <ul class="stack-items">
+                {group.items.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience ------------------------------------------------------ -->
+  {
+    experience.length > 0 && (
+      <section id="experience" class="section">
+        <div class="container-page">
+          <SectionHeading eyebrow="04 — Experience" title="Where I've worked" />
+
+          <ol class="timeline">
+            {experience.map((role, index) => (
+              <li class="timeline-item" data-reveal data-reveal-index={index}>
+                <div class="timeline-period label">
+                  {role.start} — {role.end ?? 'Present'}
+                </div>
+                <div class="timeline-body">
+                  <h3 class="timeline-role">
+                    {role.role} <span class="timeline-company">· {role.company}</span>
+                  </h3>
+                  <p class="timeline-summary">{role.summary}</p>
+                  <ul class="timeline-tags">
+                    {role.tags.map((tag) => (
+                      <li>{tag}</li>
+                    ))}
+                  </ul>
+                </div>
+              </li>
+            ))}
+          </ol>
+
+          {education.length > 0 && (
+            <div class="education" data-reveal>
+              {education.map((entry) => (
+                <div class="education-item">
+                  <h3 class="education-school">{entry.school}</h3>
+                  <p class="education-credential">{entry.credential}</p>
+                  {entry.detail && <p class="education-detail">{entry.detail}</p>}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+    )
+  }
+
+  <!-- Contact --------------------------------------------------------- -->
+  <section id="contact" class="section contact grid-bg">
+    <div class="container-page">
+      <div class="contact-inner" data-reveal>
+        <p class="label">05 — Contact</p>
+        <h2 class="contact-title">Let's build something.</h2>
+        <p class="contact-pitch">{contact.pitch}</p>
+
+        <a href={`mailto:${contact.email}`} class="contact-email link-underline">
+          {contact.email}
+        </a>
+
+        <ul class="contact-links">
+          {
+            contact.links.map((link) => (
+              <li>
+                <a href={link.href} target="_blank" rel="noopener noreferrer" class="contact-link">
+                  <span class="contact-link-label">{link.label}</span>
+                  <span class="contact-link-handle">{link.handle}</span>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M7 17 17 7M9 7h8v8" />
+                  </svg>
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .section {
+    padding-block: clamp(4.5rem, 11vw, 8rem);
+  }
+
+  .grid-feature {
+    display: grid;
+    gap: 1.25rem;
+    margin-top: 3rem;
+  }
+
+  @media (min-width: 768px) {
+    .grid-feature {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  .subgrid-label {
+    margin-top: 4rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.875rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .grid-compact {
+    display: grid;
+    gap: 1.25rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 17rem), 1fr));
+  }
+
+  /* About */
+  .about-layout {
+    display: grid;
+    gap: 2.5rem;
+  }
+
+  @media (min-width: 900px) {
+    .about-layout {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1.35fr);
+      gap: 4rem;
+    }
+
+    .about-intro {
+      position: sticky;
+      top: 7rem;
+      align-self: start;
+    }
+  }
+
+  .about-body {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  .about-paragraph {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    color: var(--fg-muted);
+  }
+
+  .about-paragraph:first-child {
+    font-size: 1.1875rem;
+    color: var(--fg);
+  }
+
+  /* Skills */
+  .stack-grid {
+    display: grid;
+    gap: 1px;
+    margin-top: 3rem;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  @media (min-width: 640px) {
+    .stack-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1024px) {
+    .stack-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+  }
+
+  .stack-group {
+    background: var(--bg-elevated);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    transition: background-color 0.3s ease;
+  }
+
+  .stack-group:hover {
+    background: var(--surface);
+  }
+
+  .stack-area {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--accent);
+  }
+
+  .stack-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.9375rem;
+    color: var(--fg-muted);
+  }
+
+  /* Experience */
+  .timeline {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .timeline-item {
+    display: grid;
+    gap: 0.75rem;
+    padding-block: 2rem;
+    border-top: 1px solid var(--line);
+  }
+
+  .timeline-item:last-child {
+    border-bottom: 1px solid var(--line);
+  }
+
+  @media (min-width: 768px) {
+    .timeline-item {
+      grid-template-columns: 10rem minmax(0, 1fr);
+      gap: 2rem;
+    }
+  }
+
+  .timeline-period {
+    padding-top: 0.3rem;
+    white-space: nowrap;
+  }
+
+  .timeline-body {
+    display: flex;
+    flex-direction: column;
+    gap: 0.625rem;
+  }
+
+  .timeline-role {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--fg);
+  }
+
+  .timeline-company {
+    font-weight: 400;
+    color: var(--fg-muted);
+  }
+
+  .timeline-summary {
+    font-size: 0.9375rem;
+    line-height: 1.65;
+    color: var(--fg-muted);
+    max-width: 44rem;
+  }
+
+  .timeline-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    margin-top: 0.25rem;
+  }
+
+  .timeline-tags li {
+    font-family: var(--font-mono);
+    font-size: 0.6875rem;
+    color: var(--fg-subtle);
+    border: 1px solid var(--line);
+    border-radius: 0.375rem;
+    padding: 0.2rem 0.45rem;
+  }
+
+  .education {
+    margin-top: 2.5rem;
+    display: grid;
+    gap: 1.25rem;
+  }
+
+  .education-item {
+    border-left: 2px solid var(--accent);
+    padding-left: 1.25rem;
+  }
+
+  .education-school {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--fg);
+  }
+
+  .education-credential {
+    font-size: 0.9375rem;
+    color: var(--fg-muted);
+    margin-top: 0.15rem;
+  }
+
+  .education-detail {
+    font-size: 0.875rem;
+    color: var(--fg-subtle);
+    margin-top: 0.35rem;
+  }
+
+  /* Contact */
+  .contact {
+    position: relative;
+    border-top: 1px solid var(--line);
+    overflow: hidden;
+  }
+
+  .contact::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(40rem 24rem at 50% 0%, var(--accent-glow), transparent 70%);
+    pointer-events: none;
+  }
+
+  .contact-inner {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+  }
+
+  .contact-title {
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 700;
+    letter-spacing: -0.035em;
+    color: var(--fg);
+  }
+
+  .contact-pitch {
+    max-width: 34rem;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    color: var(--fg-muted);
+  }
+
+  .contact-email {
+    margin-top: 1rem;
+    font-family: var(--font-mono);
+    font-size: clamp(1rem, 3vw, 1.5rem);
+    color: var(--fg);
+    word-break: break-all;
+  }
+
+  .contact-links {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 2.5rem;
+  }
+
+  .contact-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1rem;
+    border: 1px solid var(--line);
+    border-radius: 0.625rem;
+    background: var(--bg-elevated);
+    font-size: 0.875rem;
+    transition:
+      border-color 0.25s ease,
+      transform 0.25s var(--ease-out-expo);
+  }
+
+  .contact-link:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+
+  .contact-link-label {
+    font-weight: 500;
+    color: var(--fg);
+  }
+
+  .contact-link-handle {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--fg-subtle);
+  }
+
+  .contact-link svg {
+    width: 14px;
+    height: 14px;
+    color: var(--fg-subtle);
+    transition: color 0.25s ease;
+  }
+
+  .contact-link:hover svg {
+    color: var(--accent);
+  }
+</style>
