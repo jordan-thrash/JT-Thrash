@@ -208,6 +208,7 @@ that keep it coherent are:
 | `npm run covers` | Generates placeholder covers for projects missing one |
 | `npm run covers:force` | Regenerates every placeholder cover |
 | `npm run og` | Rebuilds `public/og.png`, the social share card |
+| `npm run preview:file` | Bundles the homepage into one shareable HTML file |
 
 Re-run `npm run og` after changing your name, role or the accent color.
 
