@@ -10,14 +10,18 @@
 
 export const site = {
   name: 'Jordan Thrash',
-  /** Shown beside the name in the header and used in structured data. */
-  role: 'Software Engineer',
+  /**
+   * Shown beside the name in the header and used in structured data. Kept
+   * deliberately broad — the work spans apps, services, platforms and games,
+   * and a narrower title undersells it in both directions.
+   */
+  role: 'Software & App Developer',
   /** @verify — city shown in the footer. Set to null to hide it. */
   location: 'United States',
   url: 'https://jordanthrash.netlify.app',
 
   description:
-    'Software engineer and app developer. Backends, applications, platforms and games — built end to end.',
+    'I build apps, backends, platforms and games — end to end. Software and app developer.',
 } as const;
 
 /**
@@ -28,8 +32,8 @@ export const site = {
 export const hero = {
   headline: ['I build the', '<em>whole</em> system.'],
   /** Running metadata in the masthead rule. Keep it terse and factual. */
-  spec: 'Backend · Applications · Platforms · Games',
-  lede: 'Software engineer and app developer. I build backends, applications and the infrastructure underneath them — and I got here through game development, which is still where much of the index below comes from.',
+  spec: 'Apps · Backends · Platforms · Games',
+  lede: 'Apps, backends, platforms, games. Some of it professionally, some of it because I wanted the thing to exist — and in every case I would rather own the whole system than one layer of it.',
 } as const;
 
 /**
@@ -38,9 +42,9 @@ export const hero = {
  */
 export const about = {
   paragraphs: [
-    'I build software end to end — the services, the data models, the interface on top and the infrastructure holding it up. What I care about is whether a system stays correct and stays fast once real usage arrives, which is usually decided long before anyone sees a screen.',
-    'Professionally that means backend engineering: APIs, data models, and the unglamorous parts that decide whether a product feels solid or feels broken. Alongside that I design and ship applications on my own, where I own the whole stack rather than a slice of it — which is the part that keeps me honest about what shipping actually costs.',
-    'I started in game development, and it is still the fastest way I know to learn a system properly. A game leaves nowhere to hide: the physics either resolves, the netcode either stays in sync, the generator either produces something worth playing. Most of the index below came out of that, and the habits transfer directly to everything else I build.',
+    'I build things end to end. Whatever the project needs — the service, the data model, the interface, the infrastructure underneath — I would rather own the whole shape of it than one layer. That holds whether it is a production backend, an app someone uses every day, or a game I made because I wanted it to exist.',
+    'The range is wide on purpose. Services and the data behind them, applications people actually use, the deployment and tooling around both, and games where every system has to hold up in real time. Different constraints, same job each time: work out what the thing has to guarantee, then make it do that when real usage arrives.',
+    'Games are where a lot of this got sharp. They leave nowhere to hide — the physics resolves or it does not, the netcode stays in sync or it does not, the generator produces something worth playing or it does not. Most of the index below came out of that, and the same instincts carry straight into everything else I build.',
   ],
   /**
    * @verify — grouped so the section reads as capability areas rather than a
@@ -48,19 +52,19 @@ export const about = {
    */
   stack: [
     {
-      area: 'Backend',
-      items: ['Python', 'TypeScript / Node', 'PostgreSQL', 'REST & GraphQL APIs', 'Data pipelines'],
-    },
-    {
       area: 'Applications',
-      items: ['React', 'Astro', 'TypeScript', 'Responsive UI', 'Accessibility'],
+      items: ['TypeScript', 'React', 'Astro', 'Responsive UI', 'Accessibility'],
     },
     {
-      area: 'Platform',
+      area: 'Services & data',
+      items: ['Python', 'Node', 'PostgreSQL', 'REST & GraphQL APIs', 'Data pipelines'],
+    },
+    {
+      area: 'Platform & tooling',
       items: ['Docker', 'CI / CD', 'Cloud deployment', 'Observability', 'Performance'],
     },
     {
-      area: 'Games',
+      area: 'Games & real-time',
       items: [
         'Unity',
         'C#',
@@ -88,12 +92,12 @@ export const experience = [
     tags: ['Python', 'PostgreSQL', 'APIs'],
   },
   {
-    role: 'Independent Software Engineer',
+    role: 'Independent Developer',
     company: 'Client & product work',
     start: '2021',
     end: null,
     summary:
-      'Applications, sites and backends built end to end for small businesses and my own products.',
+      'Apps, sites and the backends behind them, built end to end for small businesses and for my own products.',
     tags: ['TypeScript', 'React', 'Python', 'Netlify'],
   },
   {
@@ -123,7 +127,7 @@ export const education = [
 export const contact = {
   email: 'thrashstores@gmail.com',
   /** Headline for the contact section. */
-  pitch: 'Open to engineering work, product builds and interesting systems problems.',
+  pitch: 'Open to product work, contract builds, and anything with an interesting system in it.',
   links: [
     {
       label: 'GitHub',

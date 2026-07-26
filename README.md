@@ -66,15 +66,21 @@ and **Splittle** (from your public write-up).
 
 ### On positioning
 
-The site frames you as a software engineer and app developer whose range covers
-backends, applications, platforms and games — not as a game developer. The old
-Weebly site said "Game Developer" throughout; that framing is gone deliberately.
+The copy leads with **what gets built**, not with a job title. Apps, backends,
+platforms and games are named as four facets of the same practice, in that
+order, and no one of them is the identity. That is deliberate in both
+directions — the old Weebly site said "Game Developer" throughout, and framing
+it purely as backend engineering undersells the range just as badly.
 
-The index is still mostly games, because that is what has shipped so far. The
-copy handles this honestly rather than pretending otherwise: the hero and the
-About section present game development as where the systems habits came from,
-not as the ceiling. As you add backend and application projects the balance
-corrects itself and none of that copy needs to change.
+Two rules if you rewrite any of this:
+
+- **Do not lead with a label.** "Apps, backends, platforms, games" beats
+  "Software engineer who…". The title in `site.role` exists for the header and
+  structured data; the body copy should not repeat it.
+- **Do not apologise for the games.** They are presented as where the systems
+  instincts were sharpened, not as a phase that got outgrown. The index is
+  mostly games today because that is what has shipped; as apps and services
+  land, the balance corrects itself and none of the copy needs to change.
 
 ---
 

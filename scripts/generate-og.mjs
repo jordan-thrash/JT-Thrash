@@ -20,8 +20,8 @@ import { execSync } from 'node:child_process';
 import sharp from 'sharp';
 
 const NAME = 'Jordan Thrash';
-const ROLE = 'Software Engineer';
-const SPEC = 'Backend · Applications · Platforms · Games';
+const ROLE = 'Software & App Developer';
+const SPEC = 'Apps · Backends · Platforms · Games';
 const SITE = 'jordanthrash.netlify.app';
 
 const WIDTH = 1200;
@@ -34,6 +34,14 @@ const ACCENT = '#c2410c';
 
 const DISPLAY = "Archivo, 'DejaVu Sans', sans-serif";
 const MONO = "'DejaVu Sans Mono', ui-monospace, monospace";
+
+/** The card is assembled as raw SVG, so any copy containing `&` or `<` has to
+ *  be escaped or the rasteriser rejects the whole document. */
+const xml = (value) =>
+  String(value).replace(
+    /[&<>"']/g,
+    (char) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&apos;' })[char]
+  );
 
 // Warn rather than fail — a fallback card is better than no card.
 try {
@@ -68,7 +76,7 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${
   <!-- Masthead rule -->
   <line x1="80" y1="118" x2="${WIDTH - 80}" y2="118" stroke="${INK}" stroke-width="1.5"/>
   <text x="80" y="102" font-family="${MONO}" font-size="20" letter-spacing="3" fill="${INK}">
-    ${NAME.toUpperCase()} — ${ROLE.toUpperCase()}
+    ${xml(NAME.toUpperCase())} — ${xml(ROLE.toUpperCase())}
   </text>
 
   <!-- Display lines, matching the site's wide/heavy register -->
@@ -82,10 +90,10 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${
   <line x1="80" y1="534" x2="${WIDTH - 80}" y2="534" stroke="${INK}" stroke-opacity="0.18" stroke-width="1"/>
 
   <text x="80" y="574" font-family="${MONO}" font-size="19" fill="${MUTED}">
-    ${SPEC}
+    ${xml(SPEC)}
   </text>
   <text x="${WIDTH - 80}" y="574" text-anchor="end" font-family="${MONO}" font-size="19" fill="${MUTED}">
-    ${SITE}
+    ${xml(SITE)}
   </text>
 </svg>`;
 
