@@ -1,6 +1,6 @@
 ---
 title: Segmentel
-summary: A puzzle game built around segmentation — dividing and recombining space to solve each stage.
+summary: 'A puzzle game built around segmentation: dividing and recombining space to solve each stage.'
 order: 75
 year: '2023'
 kind: Game

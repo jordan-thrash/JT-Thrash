@@ -21,7 +21,7 @@ export const site = {
   url: 'https://jordanthrash.netlify.app',
 
   description:
-    'I build apps, backends, platforms and games — end to end. Software and app developer.',
+    'Software and app developer. I build apps, backends, platforms and games, end to end.',
 } as const;
 
 /**
@@ -33,7 +33,7 @@ export const hero = {
   headline: ['I build the', '<em>whole</em> system.'],
   /** Running metadata in the masthead rule. Keep it terse and factual. */
   spec: 'Apps · Backends · Platforms · Games',
-  lede: 'Apps, backends, platforms, games. Some of it professionally, some of it because I wanted the thing to exist — and in every case I would rather own the whole system than one layer of it.',
+  lede: "Apps, backends, platforms, games. Some of it pays the bills, some of it exists because I wanted it to. Either way I'd rather own the whole system than one layer of it.",
 } as const;
 
 /**
@@ -42,9 +42,9 @@ export const hero = {
  */
 export const about = {
   paragraphs: [
-    'I build things end to end. Whatever the project needs — the service, the data model, the interface, the infrastructure underneath — I would rather own the whole shape of it than one layer. That holds whether it is a production backend, an app someone uses every day, or a game I made because I wanted it to exist.',
-    'The range is wide on purpose. Services and the data behind them, applications people actually use, the deployment and tooling around both, and games where every system has to hold up in real time. Different constraints, same job each time: work out what the thing has to guarantee, then make it do that when real usage arrives.',
-    'Games are where a lot of this got sharp. They leave nowhere to hide — the physics resolves or it does not, the netcode stays in sync or it does not, the generator produces something worth playing or it does not. Most of the index below came out of that, and the same instincts carry straight into everything else I build.',
+    "I build things end to end. The service, the data model, the interface, whatever sits underneath: I'd rather own the whole shape of it than one layer. That's as true of a production backend as it is of a game I made because I wanted it to exist.",
+    'The range is wide on purpose. Services and the data behind them. Apps people actually open. The deployment and tooling around both, plus games where every system has to hold up in real time. Different constraints each time, same job: work out what the thing has to guarantee, then make it do that once real usage shows up.',
+    "Games are where a lot of this got sharp. They leave nowhere to hide. The physics resolves or it doesn't. The netcode syncs or it doesn't. Most of the index below came out of that, and the same instincts carry into everything else I build.",
   ],
   /**
    * @verify — grouped so the section reads as capability areas rather than a
@@ -88,7 +88,7 @@ export const experience = [
     start: '2022',
     end: null,
     summary:
-      'Backend services and data models for a virtual care platform — the APIs and infrastructure behind patient-facing products.',
+      'Backend services and data models for a virtual care platform. The APIs and infrastructure behind patient-facing products.',
     tags: ['Python', 'PostgreSQL', 'APIs'],
   },
   {
@@ -116,7 +116,7 @@ export const education = [
   {
     school: 'The Ohio State University',
     credential: 'Computer Science & Engineering',
-    detail: 'Where Splittle and the first Unity projects were built.',
+    detail: 'Where I built Splittle and the first Unity projects.',
   },
 ] as const;
 

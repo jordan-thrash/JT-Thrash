@@ -7,7 +7,7 @@
 
 title: Project Name
 # One or two sentences. Used for link previews and under the title on the
-# detail page. Say what it is and who it is for, not how it was made.
+# detail page. Say what it is and who it's for, not how it was made.
 summary: A one-line description of what this is.
 
 # Sorts the index — highest first. Leave room between numbers so you can slot
@@ -34,7 +34,7 @@ links:
   - label: 'GitHub'
     href: 'https://github.com/jordan-thrash/example'
 
-# Drop a screenshot at this path (3:2 crops best). If the file does not exist,
+# Drop a screenshot at this path (3:2 crops best). If the file doesn't exist,
 # run `npm run covers` and a placeholder is generated for you.
 cover: './covers/_example.png'
 

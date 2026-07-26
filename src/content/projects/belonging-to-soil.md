@@ -1,6 +1,6 @@
 ---
 title: Belonging To Soil
-summary: An atmospheric project leaning on mood and environment rather than mechanics — the most art-driven thing on this list.
+summary: An atmospheric project leaning on mood and environment rather than mechanics. The most art-driven thing on this list.
 order: 50
 year: '2023'
 kind: Game

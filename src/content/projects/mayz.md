@@ -1,6 +1,6 @@
 ---
 title: Mayz
-summary: A maze-based game project — the third and most developed entry in a long-running interest in generated space.
+summary: A maze-based game project, and the most developed entry in a long-running interest in generated space.
 order: 70
 year: '2021'
 kind: Game
@@ -16,6 +16,5 @@ cover: './covers/mayz.png'
 
 <!-- TODO: describe what Mayz is and how it differs from the earlier maze projects -->
 
-Mazes have been a recurring subject across my projects — first as a pure
-generation exercise, then as horror level design, and here as a game in their own
-right.
+Mazes keep coming back across my projects. First as a pure generation exercise,
+then as horror level design, and here as a game in their own right.

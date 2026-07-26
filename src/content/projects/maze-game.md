@@ -20,9 +20,8 @@ understand what actually separates the standard algorithms in practice.
 
 ## Systems
 
-The measurable differences between maze algorithms are not really about speed —
-they are about texture. Depth-first search produces long winding corridors with
-few branches; Prim's produces short, bushy, heavily-branched layouts. Both are
-"a maze" and both solve instantly, but they feel completely different to walk
-through, which is the only metric that matters if a player is going to be inside
-one.
+The differences between maze algorithms aren't about speed. They're about texture.
+Depth-first search gives you long winding corridors with almost no branching.
+Prim's gives you short, bushy, heavily branched layouts. Both count as "a maze"
+and both solve instantly, but they feel nothing alike to walk through, and that's
+the only measure that matters once a player has to be inside one.

@@ -1,6 +1,6 @@
 ---
 title: Bullet Game
-summary: A projectile-driven action game where the bullets are the system — how they travel, ricochet and interact is the whole design.
+summary: A projectile-driven action game where the bullets are the system. How they travel, ricochet and interact is the whole design.
 order: 65
 year: '2022'
 kind: Game

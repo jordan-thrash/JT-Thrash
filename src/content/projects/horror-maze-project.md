@@ -13,13 +13,12 @@ cover: './covers/horror-maze-project.png'
 <!-- TODO: replace with the write-up from the old site's horror-maze-project.html -->
 
 Horror works on the gap between what the player can see and what they can infer.
-A procedural maze widens that gap permanently — there is no memorising the safe
-route, because the route is generated fresh.
+A procedural maze widens that gap permanently. There's no memorizing the safe
+route, because the route changes every run.
 
 ## Systems
 
 Combining procedural generation with horror pacing is harder than it sounds. A
-generator that does not understand tension will happily produce a layout with the
-exit twenty feet from the spawn, or a dead end so long that the player gives up
-before anything happens. The generation pass had to be constrained by pacing
-requirements, not just connectivity.
+generator that doesn't understand tension will happily put the exit twenty feet
+from the spawn, or build a dead end so long the player quits before anything
+happens. So the generation pass answers to pacing rules, not just connectivity.

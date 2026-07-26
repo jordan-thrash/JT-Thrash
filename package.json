@@ -14,6 +14,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "check": "astro check",
+    "lint:copy": "node scripts/lint-copy.mjs",
     "covers": "node scripts/generate-covers.mjs",
     "covers:force": "node scripts/generate-covers.mjs --force",
     "og": "node scripts/generate-og.mjs",
