@@ -151,15 +151,16 @@ All other copy — hero, about, skills, experience, contact, nav — lives in
    anything. (Build `npm run build`, publish `dist`.)
 4. Deploy.
 
-### After the first deploy
+### The site URL takes care of itself
 
-Set the real URL in two places, or Open Graph previews and `sitemap.xml` will
-point at the wrong host:
+There's nothing to edit after the first deploy. `astro.config.mjs` reads
+`process.env.URL`, which Netlify sets to the site's primary address on every
+production build, and `robots.txt` is generated from the same value. Attach a
+custom domain later and canonical tags, Open Graph URLs, `sitemap.xml` and
+`robots.txt` all follow on the next deploy.
 
-- `site` in `astro.config.mjs`
-- the `Sitemap:` line in `public/robots.txt`
-
-If you point a custom domain at it later, update both again.
+Local builds fall back to `http://localhost:4321`, which never leaves your
+machine.
 
 ### Redirects
 
