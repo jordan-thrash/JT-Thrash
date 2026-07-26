@@ -1,14 +1,21 @@
 ---
-import { hero, site, contact } from '../data/site';
+import { hero, contact } from '../data/site';
+
+interface Props {
+  /** Year span of the work in the index, e.g. "2019—2024". */
+  range?: string;
+}
+
+const { range } = Astro.props;
 ---
 
 <section class="hero">
   <div class="container-page">
-    <!-- Masthead rule: the site's own specification, set as running metadata -->
+    {/* Running metadata. Deliberately does not repeat the name or the role —
+        the site header already carries both, one line above this. */}
     <div class="masthead meta">
-      <span>{site.name}</span>
-      <span class="masthead-sep" aria-hidden="true">—</span>
-      <span>{site.role}</span>
+      <span>Selected work</span>
+      {range && <span class="masthead-range">{range}</span>}
       <span class="masthead-spacer"></span>
       <span class="masthead-tail">{hero.spec}</span>
     </div>
@@ -55,7 +62,7 @@ import { hero, site, contact } from '../data/site';
     color: var(--ink);
   }
 
-  .masthead-sep {
+  .masthead-range {
     color: var(--ink-faint);
   }
 
