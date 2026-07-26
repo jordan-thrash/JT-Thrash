@@ -4,6 +4,7 @@ summary: An ecosystem simulation where predator and prey populations find their 
 order: 105
 year: '2024'
 kind: Game
+discipline: Agent simulation
 tech: ['Unity', 'C#', 'AI', 'Simulation']
 featured: true
 cover: './covers/predator-prey-simulation.png'

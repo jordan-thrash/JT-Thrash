@@ -4,6 +4,7 @@ summary: An arcade shooter in the classic mould — escalating waves, tight cont
 order: 85
 year: '2024'
 kind: Game
+discipline: Arcade shooter
 tech: ['Unity', 'C#', 'Gameplay systems']
 featured: false
 cover: './covers/retro-ufo-shooter.png'

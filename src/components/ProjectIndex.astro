@@ -1,0 +1,364 @@
+---
+import { Image } from 'astro:assets';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  projects: CollectionEntry<'projects'>[];
+}
+
+const { projects } = Astro.props;
+---
+
+<div class="index" id="project-index">
+  <div class="index-head meta" aria-hidden="true">
+    <span>No.</span>
+    <span>Project</span>
+    <span>Discipline</span>
+    <span>Built with</span>
+    <span class="index-head-year">Year</span>
+  </div>
+
+  <ol class="index-rows">
+    {
+      projects.map((project, i) => (
+        <li class="index-row" data-reveal data-reveal-index={i % 8}>
+          <a
+            href={`/work/${project.id}`}
+            class="row"
+            data-preview={project.id}
+            aria-label={`${project.data.title} — ${project.data.summary}`}
+          >
+            <span class="row-num meta">{String(i + 1).padStart(2, '0')}</span>
+
+            <span class="row-title">{project.data.title}</span>
+
+            <span class="row-kind">{project.data.discipline}</span>
+
+            <span class="row-tech">{project.data.tech.join(', ')}</span>
+
+            <span class="row-year meta">{project.data.year}</span>
+
+            {/* Small inline thumbnail, mobile only — the cursor preview does
+                this job on pointer devices. */}
+            {project.data.cover && (
+              <span class="row-thumb">
+                <Image
+                  src={project.data.cover}
+                  alt=""
+                  widths={[160, 320]}
+                  sizes="80px"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </span>
+            )}
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+
+  {/* Preview layer: follows the cursor on fine-pointer devices. Every image is
+      rendered once and swapped by opacity, so there is no load flash on hover. */}
+  <div class="preview" id="index-preview" aria-hidden="true">
+    {
+      projects.map(
+        (project) =>
+          project.data.cover && (
+            <Image
+              src={project.data.cover}
+              alt=""
+              widths={[400, 800]}
+              sizes="380px"
+              loading="lazy"
+              decoding="async"
+              class="preview-image"
+              data-preview-for={project.id}
+            />
+          )
+      )
+    }
+  </div>
+</div>
+
+<style>
+  .index {
+    margin-top: 3rem;
+  }
+
+  .index-head {
+    display: none;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--rule-strong);
+  }
+
+  .index-rows {
+    list-style: none;
+  }
+
+  .index-row {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* Mobile: title and metadata stack beside a thumbnail. */
+  .row {
+    display: grid;
+    grid-template-columns: 2.25rem minmax(0, 1fr) 4.5rem;
+    grid-template-areas:
+      'num title thumb'
+      '.   kind  thumb'
+      '.   tech  thumb';
+    gap: 0.2rem 0.75rem;
+    align-items: baseline;
+    padding-block: 1.125rem;
+    position: relative;
+    transition: color 0.2s ease;
+  }
+
+  /* Desktop: a real table row, columns aligned with the header above. The
+     areas have to be redeclared rather than cleared — the children reference
+     them by name, and `none` would leave those references dangling. */
+  @media (min-width: 900px) {
+    .index-head {
+      display: grid;
+      grid-template-columns: var(--index-cols);
+      gap: 1.5rem;
+    }
+
+    .row {
+      grid-template-columns: var(--index-cols);
+      grid-template-areas: 'num title kind tech year';
+      gap: 1.5rem;
+      align-items: center;
+      padding-block: 1.15rem;
+    }
+  }
+
+  /* A vermillion wash that wipes in from the left on hover. Sits behind the
+     text, bleeding slightly past the container so it reads as a full-width
+     rule rather than a button. */
+  .row::before {
+    content: '';
+    position: absolute;
+    inset: 0 -1rem;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.45s var(--ease-out-expo);
+    z-index: -1;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .row:hover::before,
+    .row:focus-visible::before {
+      transform: scaleX(1);
+    }
+
+    .row:hover,
+    .row:focus-visible {
+      color: var(--paper);
+    }
+
+    .row:hover .row-num,
+    .row:hover .row-year,
+    .row:hover .row-kind,
+    .row:hover .row-tech,
+    .row:focus-visible .row-num,
+    .row:focus-visible .row-year,
+    .row:focus-visible .row-kind,
+    .row:focus-visible .row-tech {
+      color: color-mix(in oklab, var(--paper) 82%, transparent);
+    }
+  }
+
+  .row-num {
+    grid-area: num;
+    transition: color 0.2s ease;
+  }
+
+  .row-title {
+    grid-area: title;
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3.2vw, 2rem);
+    line-height: 1.05;
+    letter-spacing: -0.015em;
+  }
+
+  .row-kind {
+    grid-area: kind;
+    font-size: 0.9375rem;
+    color: var(--ink-muted);
+    transition: color 0.2s ease;
+  }
+
+  .row-tech {
+    grid-area: tech;
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    color: var(--ink-faint);
+    transition: color 0.2s ease;
+  }
+
+
+  .row-year {
+    grid-area: year;
+    transition: color 0.2s ease;
+  }
+
+  /* Mobile thumbnail — the cursor preview does this job on pointer devices. */
+  .row-thumb {
+    grid-area: thumb;
+    align-self: center;
+    border: 1px solid var(--rule);
+  }
+
+  .row-thumb :global(img) {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 3 / 2;
+    object-fit: cover;
+  }
+
+  .row-year {
+    display: none;
+  }
+
+  @media (min-width: 900px) {
+    .row-thumb {
+      display: none;
+    }
+
+    .row-year {
+      display: block;
+      text-align: right;
+    }
+  }
+
+  /* Cursor preview */
+  .preview {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 23rem;
+    aspect-ratio: 3 / 2;
+    pointer-events: none;
+    opacity: 0;
+    z-index: 40;
+    border: 1px solid var(--rule-strong);
+    background: var(--paper-sunk);
+    transition: opacity 0.25s ease;
+    display: none;
+  }
+
+  @media (hover: hover) and (pointer: fine) and (min-width: 900px) {
+    .preview {
+      display: block;
+    }
+  }
+
+  .preview[data-active='true'] {
+    opacity: 1;
+  }
+
+  .preview-image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+  }
+
+  .preview-image[data-visible='true'] {
+    opacity: 1;
+  }
+</style>
+
+<script>
+  const index = document.getElementById('project-index');
+  const preview = document.getElementById('index-preview');
+
+  const fine = window.matchMedia('(hover: hover) and (pointer: fine)');
+  const wide = window.matchMedia('(min-width: 900px)');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  if (index && preview && fine.matches && wide.matches) {
+    const images = preview.querySelectorAll<HTMLElement>('[data-preview-for]');
+    const rows = index.querySelectorAll<HTMLElement>('[data-preview]');
+
+    let targetX = 0;
+    let targetY = 0;
+    let currentX = 0;
+    let currentY = 0;
+    let running = false;
+
+    const offsetX = 28;
+    const offsetY = -preview.offsetHeight / 2;
+
+    // Eased follow, so the preview trails the cursor instead of snapping to it.
+    // With reduced motion the position is applied directly.
+    const tick = () => {
+      const factor = reduceMotion.matches ? 1 : 0.16;
+      currentX += (targetX - currentX) * factor;
+      currentY += (targetY - currentY) * factor;
+      preview.style.transform = `translate3d(${currentX.toFixed(1)}px, ${currentY.toFixed(1)}px, 0)`;
+
+      if (Math.abs(targetX - currentX) < 0.4 && Math.abs(targetY - currentY) < 0.4) {
+        running = false;
+        return;
+      }
+      requestAnimationFrame(tick);
+    };
+
+    const start = () => {
+      if (running) return;
+      running = true;
+      requestAnimationFrame(tick);
+    };
+
+    const setPosition = (event: PointerEvent, snap = false) => {
+      // Keep the preview inside the viewport near the right-hand edge.
+      const maxX = window.innerWidth - preview.offsetWidth - 24;
+      targetX = Math.min(event.clientX + offsetX, maxX);
+      targetY = Math.min(
+        Math.max(event.clientY + offsetY, 16),
+        window.innerHeight - preview.offsetHeight - 16
+      );
+      if (snap) {
+        currentX = targetX;
+        currentY = targetY;
+      }
+      start();
+    };
+
+    rows.forEach((row) => {
+      const id = row.dataset.preview;
+
+      row.addEventListener('pointerenter', (event) => {
+        images.forEach((image) => {
+          image.dataset.visible = String(image.dataset.previewFor === id);
+        });
+        setPosition(event as PointerEvent, true);
+        preview.dataset.active = 'true';
+      });
+
+      row.addEventListener('pointermove', (event) => setPosition(event as PointerEvent));
+
+      row.addEventListener('pointerleave', () => {
+        preview.dataset.active = 'false';
+      });
+    });
+
+    // Hide it during scroll — a preview pinned to a stale cursor position while
+    // the page moves underneath reads as a bug.
+    window.addEventListener(
+      'scroll',
+      () => {
+        preview.dataset.active = 'false';
+      },
+      { passive: true }
+    );
+  }
+</script>

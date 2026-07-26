@@ -3,7 +3,6 @@ import { getCollection, render } from 'astro:content';
 import { Image } from 'astro:assets';
 import type { GetStaticPaths } from 'astro';
 import Base from '../../layouts/Base.astro';
-import ProjectCard from '../../components/ProjectCard.astro';
 
 export const getStaticPaths = (async () => {
   const projects = await getCollection('projects', ({ data }) => !data.draft);
@@ -15,73 +14,45 @@ export const getStaticPaths = (async () => {
 }) satisfies GetStaticPaths;
 
 const { project, projects } = Astro.props;
-const { title, summary, kind, year, tech, links, cover } = project.data;
+const { title, summary, discipline, year, tech, links, cover } = project.data;
 const { Content } = await render(project);
 
-// Next two projects in display order, wrapping around, so every page has a
-// forward path rather than dead-ending.
+// Next project in display order, wrapping around, so no page dead-ends.
 const ordered = [...projects].sort((a, b) => b.data.order - a.data.order);
 const currentIndex = ordered.findIndex((entry) => entry.id === project.id);
-const more = [
-  ordered[(currentIndex + 1) % ordered.length],
-  ordered[(currentIndex + 2) % ordered.length],
-].filter((entry) => entry && entry.id !== project.id);
+const next = ordered[(currentIndex + 1) % ordered.length];
+const indexNumber = String(currentIndex + 1).padStart(2, '0');
 ---
 
 <Base title={title} description={summary} path={`/work/${project.id}/`} ogType="article">
-  <article class="project">
-    <header class="project-header">
+  <article>
+    <header class="head">
       <div class="container-page">
-        <a href="/#work" class="back-link">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M19 12H5M12 19l-7-7 7-7"></path>
-          </svg>
-          All work
-        </a>
+        <a href="/#work" class="back meta">← Index</a>
 
-        <div class="project-meta label">
-          <span class="project-kind">{kind}</span>
-          <span aria-hidden="true">·</span>
-          <span>{year}</span>
+        <div class="head-grid">
+          <span class="head-number meta">{indexNumber}</span>
+
+          <div>
+            <h1 class="head-title display">{title}</h1>
+            <p class="head-summary">{summary}</p>
+          </div>
         </div>
-
-        <h1 class="project-title">{title}</h1>
-        <p class="project-summary">{summary}</p>
-
-        <ul class="project-tech" aria-label="Built with">
-          {tech.map((item) => <li>{item}</li>)}
-        </ul>
-
-        {
-          links.length > 0 && (
-            <div class="project-links">
-              {links.map((link) => (
-                <a href={link.href} target="_blank" rel="noopener noreferrer" class="project-link">
-                  {link.label}
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M7 17 17 7M9 7h8v8" />
-                  </svg>
-                </a>
-              ))}
-            </div>
-          )
-        }
       </div>
     </header>
 
     {
       cover && (
         <div class="container-page">
-          <figure class="project-cover">
+          <figure class="cover">
             <Image
               src={cover}
-              alt={`${title} cover image`}
+              alt={`${title} — cover image`}
               widths={[640, 960, 1280, 1600]}
-              sizes="(min-width: 1152px) 1088px, 92vw"
+              sizes="(min-width: 1248px) 1152px, 92vw"
               loading="eager"
               fetchpriority="high"
-              class="project-cover-image"
-              style={`view-transition-name: cover-${project.id}`}
+              class="cover-image"
             />
           </figure>
         </div>
@@ -89,146 +60,115 @@ const more = [
     }
 
     <div class="container-page">
-      <div class="prose project-body">
-        <Content />
+      <div class="layout">
+        <!-- Specification column: sticky on wide screens so the facts stay put
+             while the write-up scrolls past. -->
+        <aside class="spec">
+          <dl>
+            <div class="spec-row">
+              <dt class="meta">Discipline</dt>
+              <dd>{discipline}</dd>
+            </div>
+            <div class="spec-row">
+              <dt class="meta">Year</dt>
+              <dd>{year}</dd>
+            </div>
+            <div class="spec-row">
+              <dt class="meta">Built with</dt>
+              <dd>{tech.join(', ')}</dd>
+            </div>
+          </dl>
+
+          {
+            links.length > 0 && (
+              <div class="spec-links">
+                {links.map((link) => (
+                  <a href={link.href} target="_blank" rel="noopener noreferrer" class="spec-link">
+                    {link.label} ↗
+                  </a>
+                ))}
+              </div>
+            )
+          }
+        </aside>
+
+        <div class="prose body">
+          <Content />
+        </div>
       </div>
     </div>
-  </article>
 
-  {
-    more.length > 0 && (
-      <section class="more">
-        <div class="container-page">
-          <h2 class="label more-label">Next</h2>
-          <div class="more-grid">
-            {more.map((entry, index) => (
-              <ProjectCard project={entry} revealIndex={index} />
-            ))}
-          </div>
-        </div>
-      </section>
-    )
-  }
+    {
+      next && (
+        <nav class="next" aria-label="Next project">
+          <a href={`/work/${next.id}`} class="next-link">
+            <div class="container-page next-inner">
+              <span class="meta">Next</span>
+              <span class="next-title display">{next.data.title}</span>
+              <span class="next-arrow" aria-hidden="true">
+                →
+              </span>
+            </div>
+          </a>
+        </nav>
+      )
+    }
+  </article>
 </Base>
 
 <style>
-  .project-header {
-    padding-top: 8rem;
+  .head {
+    padding-top: 3rem;
     padding-bottom: 2.5rem;
   }
 
-  .back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--fg-subtle);
+  .back {
+    color: var(--ink-muted);
     transition: color 0.2s ease;
   }
 
-  .back-link:hover {
+  .back:hover {
     color: var(--accent);
   }
 
-  .back-link svg {
-    width: 14px;
-    height: 14px;
-    transition: translate 0.25s var(--ease-out-expo);
-  }
-
-  .back-link:hover svg {
-    translate: -3px 0;
-  }
-
-  .project-meta {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
+  .head-grid {
+    display: grid;
+    gap: 0.75rem;
     margin-top: 2.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--ink);
   }
 
-  .project-kind {
+  @media (min-width: 900px) {
+    .head-grid {
+      grid-template-columns: 3.5rem minmax(0, 1fr);
+      gap: 1.5rem;
+    }
+  }
+
+  .head-number {
     color: var(--accent);
+    padding-top: 0.5rem;
   }
 
-  .project-title {
-    margin-top: 0.875rem;
-    font-size: clamp(2.25rem, 7vw, 4rem);
-    font-weight: 700;
-    line-height: 1.05;
-    letter-spacing: -0.04em;
-    color: var(--fg);
+  .head-title {
+    font-size: clamp(2.5rem, 8vw, 5.5rem);
+    max-width: 16ch;
   }
 
-  .project-summary {
+  .head-summary {
     margin-top: 1.25rem;
-    max-width: 44rem;
-    font-size: clamp(1.0625rem, 2vw, 1.25rem);
-    line-height: 1.65;
-    color: var(--fg-muted);
+    max-width: 50ch;
+    font-size: clamp(1.0625rem, 1.8vw, 1.25rem);
+    line-height: 1.6;
+    color: var(--ink-muted);
   }
 
-  .project-tech {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-    margin-top: 1.75rem;
+  .cover {
+    border: 1px solid var(--rule);
   }
 
-  .project-tech li {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--fg-muted);
-    border: 1px solid var(--line);
-    border-radius: 0.375rem;
-    padding: 0.25rem 0.55rem;
-    background: var(--surface);
-  }
-
-  .project-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.625rem;
-    margin-top: 1.75rem;
-  }
-
-  .project-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.45rem;
-    height: 2.5rem;
-    padding-inline: 1.1rem;
-    border-radius: 0.625rem;
-    background: var(--accent);
-    color: var(--accent-contrast);
-    font-size: 0.875rem;
-    font-weight: 600;
-    transition:
-      background-color 0.25s ease,
-      transform 0.25s var(--ease-out-expo);
-  }
-
-  .project-link:hover {
-    background: var(--accent-hover);
-    transform: translateY(-2px);
-  }
-
-  .project-link svg {
-    width: 14px;
-    height: 14px;
-  }
-
-  .project-cover {
-    border-radius: var(--radius);
-    overflow: hidden;
-    border: 1px solid var(--line);
-    background: var(--surface);
-  }
-
-  .project-cover-image {
+  .cover-image {
     display: block;
     width: 100%;
     height: auto;
@@ -236,29 +176,118 @@ const more = [
     object-fit: cover;
   }
 
-  .project-body {
-    max-width: 44rem;
+  .layout {
+    display: grid;
+    gap: 3rem;
     margin-top: 3.5rem;
   }
 
-  .more {
-    margin-top: 6rem;
-    padding-top: 3rem;
-    border-top: 1px solid var(--line);
-  }
-
-  .more-label {
-    margin-bottom: 1.5rem;
-  }
-
-  .more-grid {
-    display: grid;
-    gap: 1.25rem;
-  }
-
-  @media (min-width: 640px) {
-    .more-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+  @media (min-width: 900px) {
+    .layout {
+      grid-template-columns: 15rem minmax(0, 1fr);
+      gap: 4rem;
+      align-items: start;
     }
+
+    .spec {
+      position: sticky;
+      top: 6rem;
+    }
+  }
+
+  .spec-row {
+    display: grid;
+    gap: 0.3rem;
+    padding-block: 0.875rem;
+    border-top: 1px solid var(--rule);
+  }
+
+  .spec-row:last-of-type {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .spec-row dd {
+    font-size: 0.9375rem;
+    line-height: 1.55;
+    color: var(--ink);
+  }
+
+  .spec-links {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .spec-link {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    border-bottom: 1px solid var(--accent);
+    padding-bottom: 0.1rem;
+    transition: color 0.2s ease;
+  }
+
+  .spec-link:hover {
+    color: var(--accent);
+  }
+
+  .body {
+    max-width: 62ch;
+  }
+
+  /* Next project: a full-width band that inverts on hover. */
+  .next {
+    margin-top: 6rem;
+    border-top: 1px solid var(--ink);
+  }
+
+  .next-link {
+    display: block;
+    position: relative;
+    overflow: hidden;
+    transition: color 0.3s ease;
+  }
+
+  .next-link::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--accent);
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.45s var(--ease-out-expo);
+  }
+
+  .next-link:hover,
+  .next-link:focus-visible {
+    color: var(--paper);
+  }
+
+  .next-link:hover::before,
+  .next-link:focus-visible::before {
+    transform: scaleY(1);
+  }
+
+  .next-inner {
+    position: relative;
+    display: flex;
+    align-items: baseline;
+    gap: 1.5rem;
+    padding-block: clamp(2rem, 5vw, 3.5rem);
+  }
+
+  .next-title {
+    font-size: clamp(1.75rem, 5vw, 3.5rem);
+    flex: 1;
+  }
+
+  .next-arrow {
+    font-size: 1.5rem;
+    transition: translate 0.35s var(--ease-out-expo);
+  }
+
+  .next-link:hover .next-arrow {
+    translate: 0.5rem 0;
   }
 </style>

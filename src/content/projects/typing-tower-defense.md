@@ -4,6 +4,7 @@ summary: A tower defense game where your keyboard is the weapon — enemies fall
 order: 110
 year: '2024'
 kind: Game
+discipline: Tower defense
 tech: ['Unity', 'C#', 'Gameplay systems']
 featured: true
 cover: './covers/typing-tower-defense.png'

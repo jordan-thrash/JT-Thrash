@@ -4,6 +4,7 @@ summary: A customizable logging utility for Unity — rich GameObject context, c
 order: 100
 year: '2024'
 kind: Tool
+discipline: Developer tooling
 tech: ['Unity', 'C#', 'Editor tooling']
 featured: true
 links:

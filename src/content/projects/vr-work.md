@@ -4,6 +4,7 @@ summary: Room-scale VR development on Oculus Quest, where a 72fps floor is not a
 order: 45
 year: '2022'
 kind: Game
+discipline: Virtual reality
 tech: ['Unity', 'C#', 'Oculus Quest', 'XR Interaction Toolkit']
 featured: false
 draft: true

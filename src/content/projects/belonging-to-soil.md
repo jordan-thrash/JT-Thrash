@@ -4,6 +4,7 @@ summary: An atmospheric project leaning on mood and environment rather than mech
 order: 50
 year: '2023'
 kind: Game
+discipline: Atmospheric
 tech: ['Unity', 'C#', 'Environment art']
 featured: false
 cover: './covers/belonging-to-soil.png'

@@ -22,17 +22,14 @@ export const site = {
 
 /**
  * The hero headline renders one line per array entry so each can animate
- * independently. Three short lines works best; longer lines wrap badly.
+ * independently. Two or three short lines works best — longer lines wrap badly
+ * at the display size. `<em>` marks the accented italic word.
  */
 export const hero = {
-  eyebrow: 'Game Developer',
-  headline: ['I design systems', 'you can play.'],
-  lede: 'Unity and C# developer working across VR, procedural generation and physics simulation. Thirteen shipped games and tools — each one an excuse to build a system I had not built before.',
-  stats: [
-    { value: '13', label: 'Games & tools shipped' },
-    { value: '6', label: 'Years in Unity' },
-    { value: 'VR', label: 'Oculus Quest native' },
-  ],
+  headline: ['Systems', 'you can <em>play</em>.'],
+  /** Running metadata in the masthead rule. Keep it terse and factual. */
+  spec: 'Unity · C# · VR · Procedural generation',
+  lede: 'I build games in Unity and C#, across VR, procedural generation and physics simulation. Thirteen shipped projects, each one an excuse to build a system I had not built before.',
 } as const;
 
 /**

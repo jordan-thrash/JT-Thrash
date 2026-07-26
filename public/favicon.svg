@@ -1,13 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#111216"/>
+  <rect width="64" height="64" fill="#f7f5f1"/>
+  <rect x="0.5" y="0.5" width="63" height="63" fill="none" stroke="#2a2722" stroke-width="3"/>
   <text
     x="32"
-    y="43"
+    y="44"
     text-anchor="middle"
-    font-family="ui-monospace, 'SF Mono', Menlo, monospace"
-    font-size="27"
-    font-weight="700"
-    fill="#f5a03c"
-    letter-spacing="-1"
-  >JT</text>
+    font-family="Georgia, 'Instrument Serif', serif"
+    font-size="38"
+    fill="#c2410c"
+  >J</text>
 </svg>

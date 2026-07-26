@@ -39,7 +39,7 @@ const personSchema = {
 ---
 
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -50,8 +50,8 @@ const personSchema = {
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <meta name="author" content={site.name} />
-    <meta name="theme-color" content="#0f1013" media="(prefers-color-scheme: dark)" />
-    <meta name="theme-color" content="#fbfbfa" media="(prefers-color-scheme: light)" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#f7f5f1" />
 
     <meta property="og:type" content={ogType} />
     <meta property="og:title" content={pageTitle} />
@@ -64,32 +64,16 @@ const personSchema = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    {/* Must stay inline and un-bundled so it runs before first paint — otherwise
-        the page flashes the wrong theme on load. */}
+    {/* Gates the scroll-reveal CSS: without JS, nothing is ever hidden. */}
     <script is:inline>
-      (function () {
-        try {
-          var stored = localStorage.getItem('theme');
-          var prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-          document.documentElement.dataset.theme = stored || (prefersLight ? 'light' : 'dark');
-        } catch (e) {
-          document.documentElement.dataset.theme = 'dark';
-        }
-        // Gates the scroll-reveal CSS: without JS, nothing is ever hidden.
-        document.documentElement.classList.add('js-reveal');
-      })();
+      document.documentElement.classList.add('js-reveal');
     </script>
 
     <script is:inline type="application/ld+json" set:html={JSON.stringify(personSchema)} />
   </head>
 
   <body>
-    <a
-      href="#main"
-      class="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-100 focus:rounded-lg focus:bg-accent focus:px-4 focus:py-2 focus:text-sm focus:font-semibold focus:text-accent-contrast"
-    >
-      Skip to content
-    </a>
+    <a href="#main" class="skip">Skip to content</a>
 
     <SiteHeader />
 
@@ -99,10 +83,28 @@ const personSchema = {
 
     <SiteFooter />
 
+    <style is:global>
+      .skip {
+        position: absolute;
+        left: -9999px;
+      }
+
+      .skip:focus {
+        left: 1rem;
+        top: 1rem;
+        z-index: 100;
+        position: fixed;
+        background: var(--accent);
+        color: var(--paper);
+        padding: 0.6rem 1rem;
+        font-size: 0.875rem;
+        font-weight: 600;
+      }
+    </style>
+
     <script>
-      // Scroll reveal. Elements are only hidden once `js-reveal` is on the
-      // documentElement (set in the head script), so this failing leaves the
-      // page fully readable rather than blank.
+      // Scroll reveal. Targets are only hidden once `js-reveal` is on the
+      // documentElement, so this failing leaves the page fully readable.
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const targets = document.querySelectorAll<HTMLElement>('[data-reveal]');
 
@@ -117,13 +119,13 @@ const personSchema = {
               observer.unobserve(entry.target);
             }
           },
-          { rootMargin: '0px 0px -12% 0px', threshold: 0.1 }
+          { rootMargin: '0px 0px -10% 0px', threshold: 0.05 }
         );
 
         targets.forEach((el, i) => {
-          // Stagger siblings so a row of cards cascades instead of popping in.
+          // Stagger siblings so index rows cascade instead of popping in at once.
           const index = Number(el.dataset.revealIndex ?? i % 6);
-          el.style.setProperty('--reveal-delay', `${Math.min(index, 6) * 70}ms`);
+          el.style.setProperty('--reveal-delay', `${Math.min(index, 8) * 45}ms`);
           observer.observe(el);
         });
       }

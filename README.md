@@ -3,8 +3,8 @@
 Portfolio site — replaces the Weebly site at `jordanthrash.weebly.com`.
 
 Built with [Astro](https://astro.build) and Tailwind CSS v4, deployed to Netlify.
-Ships as fully static HTML with a few kilobytes of JavaScript (theme toggle,
-mobile menu, scroll reveal) and no client-side framework.
+Ships as fully static HTML with a few kilobytes of JavaScript (scroll reveal and
+the index hover preview) and no client-side framework.
 
 ---
 
@@ -75,24 +75,25 @@ the URL — `splittle.md` → `/work/splittle`.
 ```markdown
 ---
 title: Project Name
-summary: One or two sentences. Shows on the card and in link previews.
-order: 80          # higher sorts first
+summary: One or two sentences. Used for link previews and the detail page.
+order: 80                  # higher sorts to the top of the index
 year: '2024'
-kind: Game         # Game | Tool | Web | Backend — drives the chip and cover hue
-tech: ['Unity', 'C#']
-featured: false    # true pins it to the large cards at the top
+kind: Game                 # Game | Tool | Web | Backend — only picks the cover motif
+discipline: Tower defense  # the index's "Discipline" column. Two or three words.
+tech: ['Unity', 'C#']      # the index's "Built with" column
+featured: false
 links:
   - label: 'itch.io'
     href: 'https://...'
 cover: './covers/project-name.png'
-draft: false       # true hides it from production builds
+draft: false               # true hides it from production builds
 ---
 
 Markdown body — becomes the project detail page.
 ```
 
 The schema in `src/content.config.ts` is enforced at build time, so a typo in a
-field name fails the build instead of rendering an empty card.
+field name fails the build instead of rendering an empty row.
 
 New project with no screenshot yet? Run `npm run covers` and it generates
 matching placeholder artwork for anything missing.
@@ -126,25 +127,34 @@ If you point a custom domain at it later, update both again.
 
 `netlify.toml` maps the old Weebly URLs to their new homes — `/splittle.html`
 → `/work/splittle`, `/about.html` → `/#about`, and so on — so existing links and
-Google results land somewhere useful. If you add project pages whose old Weebly
-URL differs from the new slug, add a redirect there too.
+Google results land somewhere useful.
+
+All 13 old project pages are redirected individually. If you rename a project
+file, update its redirect too, or that old URL starts 404ing.
 
 ---
 
 ## Design notes
 
-- **Theme** — dark and light are both fully designed. The site follows the
-  visitor's OS setting until they use the toggle, after which their choice is
-  remembered. An inline script in `<head>` applies the theme before first paint,
-  so there is no flash of the wrong background.
-- **Colour** — authored in OKLCH so lightness steps stay perceptually even
-  across both themes. Every colour goes through a semantic variable in
+The visual language is print, not app UI. If you are editing styles, the rules
+that keep it coherent are:
+
+- **No cards, no pills, no chips.** Structure comes from hairline rules and
+  alignment. Metadata is set as plain text in a monospace face, never inside a
+  rounded container. Square corners, no shadows, no gradients, no blur.
+- **One theme** — warm paper, near-black ink, a single vermillion accent used
+  sparingly. Colour is authored in OKLCH behind semantic variables in
   `src/styles/global.css`; changing `--accent` there re-skins the whole site.
-- **Motion** — scroll reveals, the hero line wipe and the pointer spotlight all
+- **Two voices in the type** — Instrument Serif for statements (headline,
+  section titles, project names), Archivo for interface and body text,
+  JetBrains Mono for anything that reads as a specification. The contrast
+  between them is the site's signature; keep it.
+- **The index is the centrepiece.** Projects are a numbered table, not a grid.
+  Hovering a row wipes it vermillion and floats a preview beside the cursor;
+  on touch and narrow screens that becomes an inline thumbnail instead.
+- **Motion** — scroll reveals, the hero line rise and the cursor preview all
   respect `prefers-reduced-motion`. The reveal CSS is gated behind a JS-set
   class, so if JavaScript fails nothing is ever left invisible.
-- **Navigation** — cross-document view transitions animate between pages, with
-  project covers morphing from card to detail page in supporting browsers.
 - **Images** — covers run through Astro's asset pipeline: resized, converted to
   WebP, content-hashed and served with `srcset`.
 

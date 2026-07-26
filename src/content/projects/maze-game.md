@@ -4,6 +4,7 @@ summary: A procedural maze generator built to compare generation algorithms by t
 order: 95
 year: '2019'
 kind: Tool
+discipline: Procedural generation
 tech: ['Unity', 'C#', 'Procedural generation']
 featured: false
 links:

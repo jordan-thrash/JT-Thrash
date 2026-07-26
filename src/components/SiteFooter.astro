@@ -6,13 +6,9 @@ const year = new Date().getFullYear();
 
 <footer class="footer">
   <div class="container-page">
-    <div class="footer-inner">
-      <div class="footer-brand">
-        <a href="/" class="footer-name">{site.name}</a>
-        <p class="footer-role">{site.role}{site.location ? ` · ${site.location}` : ''}</p>
-      </div>
-
-      <nav aria-label="Elsewhere" class="footer-links">
+    <div class="footer-inner meta">
+      <span>&copy; {year} {site.name}</span>
+      <span class="footer-links">
         {
           contact.links.map((link) => (
             <a href={link.href} target="_blank" rel="noopener noreferrer" class="footer-link">
@@ -21,64 +17,34 @@ const year = new Date().getFullYear();
           ))
         }
         <a href={`mailto:${contact.email}`} class="footer-link">Email</a>
-      </nav>
-    </div>
-
-    <div class="footer-meta">
-      <p>&copy; {year} {site.name}</p>
-      <p class="footer-colophon">Built with Astro. Deployed on Netlify.</p>
+      </span>
+      <span class="footer-colophon">Astro · Netlify</span>
     </div>
   </div>
 </footer>
 
 <style>
   .footer {
-    border-top: 1px solid var(--line);
     margin-top: 6rem;
-    padding-block: 3rem 2rem;
+    border-top: 1px solid var(--ink);
   }
 
   .footer-inner {
     display: flex;
-    flex-direction: column;
-    gap: 1.75rem;
+    flex-wrap: wrap;
+    align-items: baseline;
     justify-content: space-between;
-  }
-
-  @media (min-width: 640px) {
-    .footer-inner {
-      flex-direction: row;
-      align-items: flex-start;
-    }
-  }
-
-  .footer-brand {
-    display: flex;
-    flex-direction: column;
-    gap: 0.25rem;
-  }
-
-  .footer-name {
-    font-size: 0.9375rem;
-    font-weight: 600;
-    color: var(--fg);
-  }
-
-  .footer-role {
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--fg-subtle);
+    gap: 1rem 2rem;
+    padding-block: 1.5rem;
   }
 
   .footer-links {
     display: flex;
-    flex-wrap: wrap;
-    gap: 1.25rem;
+    gap: 1.5rem;
   }
 
   .footer-link {
-    font-size: 0.875rem;
-    color: var(--fg-muted);
+    color: var(--ink-muted);
     transition: color 0.2s ease;
   }
 
@@ -86,27 +52,7 @@ const year = new Date().getFullYear();
     color: var(--accent);
   }
 
-  .footer-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    margin-top: 2.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--line);
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    color: var(--fg-subtle);
-  }
-
-  @media (min-width: 640px) {
-    .footer-meta {
-      flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-    }
-  }
-
   .footer-colophon {
-    opacity: 0.8;
+    color: var(--ink-faint);
   }
 </style>

@@ -4,6 +4,7 @@ summary: A maze-based game project — the third and most developed entry in a l
 order: 70
 year: '2021'
 kind: Game
+discipline: Maze game
 tech: ['Unity', 'C#', 'Procedural generation']
 featured: false
 cover: './covers/mayz.png'

@@ -4,6 +4,7 @@ summary: A first-person horror game set in a procedurally generated maze, where 
 order: 80
 year: '2022'
 kind: Game
+discipline: First-person horror
 tech: ['Unity', 'C#', 'Procedural generation', 'AI']
 featured: false
 cover: './covers/horror-maze-project.png'

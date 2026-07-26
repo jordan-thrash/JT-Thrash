@@ -4,6 +4,7 @@ summary: A water-powered arcade game built around fluid movement and pressure as
 order: 55
 year: '2023'
 kind: Game
+discipline: Physics arcade
 tech: ['Unity', 'C#', 'Physics simulation']
 featured: false
 cover: './covers/hydro-hustle.png'

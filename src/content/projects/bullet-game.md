@@ -4,6 +4,7 @@ summary: A projectile-driven action game where the bullets are the system — ho
 order: 65
 year: '2022'
 kind: Game
+discipline: Physics action
 tech: ['Unity', 'C#', 'Physics simulation']
 featured: false
 cover: './covers/bullet-game.png'

@@ -21,10 +21,6 @@
 
 # Redirects from the old Weebly URL structure, so existing links and
 # search-engine results land somewhere useful instead of a 404.
-[[redirects]]
-  from = "/splittle.html"
-  to = "/work/splittle"
-  status = 301
 
 [[redirects]]
   from = "/index.html"
@@ -48,10 +44,81 @@
 
 [[redirects]]
   from = "/projects.html"
-  to = "/work"
+  to = "/#work"
   status = 301
 
 [[redirects]]
   from = "/portfolio.html"
-  to = "/work"
+  to = "/#work"
+  status = 301
+
+[[redirects]]
+  from = "/work"
+  to = "/#work"
+  status = 301
+
+# Old Weebly project pages. Each slug matches its new /work/ path.
+[[redirects]]
+  from = "/belonging-to-soil.html"
+  to = "/work/belonging-to-soil"
+  status = 301
+
+[[redirects]]
+  from = "/bullet-game.html"
+  to = "/work/bullet-game"
+  status = 301
+
+[[redirects]]
+  from = "/horror-maze-project.html"
+  to = "/work/horror-maze-project"
+  status = 301
+
+[[redirects]]
+  from = "/hydro-hustle.html"
+  to = "/work/hydro-hustle"
+  status = 301
+
+[[redirects]]
+  from = "/mayz.html"
+  to = "/work/mayz"
+  status = 301
+
+[[redirects]]
+  from = "/maze-game.html"
+  to = "/work/maze-game"
+  status = 301
+
+[[redirects]]
+  from = "/my-logger.html"
+  to = "/work/my-logger"
+  status = 301
+
+[[redirects]]
+  from = "/predator-prey-simulation.html"
+  to = "/work/predator-prey-simulation"
+  status = 301
+
+[[redirects]]
+  from = "/retro-ufo-shooter.html"
+  to = "/work/retro-ufo-shooter"
+  status = 301
+
+[[redirects]]
+  from = "/saucy-fields.html"
+  to = "/work/saucy-fields"
+  status = 301
+
+[[redirects]]
+  from = "/segmentel.html"
+  to = "/work/segmentel"
+  status = 301
+
+[[redirects]]
+  from = "/splittle.html"
+  to = "/work/splittle"
+  status = 301
+
+[[redirects]]
+  from = "/typing-tower-defense.html"
+  to = "/work/typing-tower-defense"
   status = 301

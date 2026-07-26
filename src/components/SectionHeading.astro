@@ -1,65 +1,59 @@
 ---
 interface Props {
-  /** Small monospace label above the title, e.g. "01 — Work". */
-  eyebrow: string;
+  /** Section number, e.g. "01". Rendered in the left margin on wide screens. */
+  number: string;
   title: string;
-  /** Optional supporting sentence beneath the title. */
   lede?: string;
-  align?: 'start' | 'center';
 }
 
-const { eyebrow, title, lede, align = 'start' } = Astro.props;
+const { number, title, lede } = Astro.props;
 ---
 
-<header
-  class:list={['heading', align === 'center' && 'heading-center']}
-  data-reveal
->
-  <p class="label heading-eyebrow">
-    <span class="heading-rule" aria-hidden="true"></span>
-    {eyebrow}
-  </p>
-  <h2 class="heading-title">{title}</h2>
-  {lede && <p class="heading-lede">{lede}</p>}
+<header class="heading" data-reveal>
+  <span class="heading-number meta">{number}</span>
+  <div class="heading-body">
+    <h2 class="heading-title display">{title}</h2>
+    {lede && <p class="heading-lede">{lede}</p>}
+  </div>
 </header>
 
 <style>
+  /* Numbers hang in the left margin, the way a printed index would set them. */
   .heading {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--ink);
+  }
+
+  @media (min-width: 900px) {
+    .heading {
+      grid-template-columns: 3.5rem minmax(0, 1fr);
+      gap: 1.5rem;
+    }
+  }
+
+  .heading-number {
+    color: var(--accent);
+    padding-top: 0.35rem;
+  }
+
+  .heading-body {
     display: flex;
     flex-direction: column;
-    gap: 0.875rem;
-    max-width: 46rem;
-  }
-
-  .heading-center {
-    align-items: center;
-    text-align: center;
-    margin-inline: auto;
-  }
-
-  .heading-eyebrow {
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-  }
-
-  .heading-rule {
-    display: block;
-    width: 1.75rem;
-    height: 1px;
-    background: var(--accent);
+    gap: 1rem;
   }
 
   .heading-title {
-    font-size: clamp(1.875rem, 4.5vw, 2.75rem);
-    font-weight: 600;
-    line-height: 1.1;
-    color: var(--fg);
+    font-size: clamp(2rem, 5vw, 3.25rem);
+    max-width: 20ch;
   }
 
   .heading-lede {
+    max-width: 52ch;
     font-size: 1.0625rem;
     line-height: 1.65;
-    color: var(--fg-muted);
+    color: var(--ink-muted);
   }
 </style>

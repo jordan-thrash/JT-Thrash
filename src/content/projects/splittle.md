@@ -4,6 +4,7 @@ summary: A timed puzzle game about splitting a ball and guiding every piece into
 order: 90
 year: '2019'
 kind: Game
+discipline: Puzzle
 tech: ['Unity', 'C#', 'TextMesh Pro', 'Photoshop']
 featured: true
 links:

@@ -1,222 +1,114 @@
 ---
-import ThemeToggle from './ThemeToggle.astro';
 import { site, nav } from '../data/site';
 ---
 
-<header id="site-header" class="site-header" data-scrolled="false">
-  <div class="header-bar">
-    <div class="container-page flex h-16 items-center justify-between gap-4 md:h-[4.5rem]">
-      <a
-        href="/"
-        class="group flex items-center gap-2.5 rounded-md text-sm font-semibold tracking-tight"
-        aria-label={`${site.name} — home`}
-      >
-        <span class="mark" aria-hidden="true">JT</span>
-        <span class="hidden sm:inline">{site.name}</span>
-      </a>
+<header class="header">
+  <div class="container-page header-inner">
+    <a href="/" class="brand">
+      <span class="brand-name">{site.name}</span>
+      <span class="brand-role meta">{site.role}</span>
+    </a>
 
-      <div class="flex items-center gap-1">
-        <nav aria-label="Primary" class="hidden items-center md:flex">
-          {
-            nav.map((item) => (
-              <a
-                href={item.href}
-                class="rounded-md px-3 py-2 text-sm text-muted transition-colors duration-200 hover:text-fg"
-              >
-                {item.label}
-              </a>
-            ))
-          }
-        </nav>
-
-        <div class="mx-1 hidden h-5 w-px bg-line md:block" aria-hidden="true"></div>
-
-        <ThemeToggle />
-
-        <button
-          type="button"
-          id="menu-button"
-          class="icon-button menu-button"
-          aria-label="Open menu"
-          aria-expanded="false"
-          aria-controls="mobile-menu"
-        >
-          <svg
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="1.75"
-            stroke-linecap="round"
-            class="size-[18px]"
-            aria-hidden="true"
-          >
-            <line x1="3" y1="8" x2="21" y2="8"></line>
-            <line x1="3" y1="16" x2="21" y2="16"></line>
-          </svg>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- grid-rows trick: animates open to the menu's natural height -->
-  <div id="mobile-menu" class="mobile-menu" data-open="false">
-    <nav aria-label="Mobile" class="min-h-0">
-      <ul class="container-page flex flex-col py-2">
-        {
-          nav.map((item) => (
-            <li class="menu-item">
-              <a
-                href={item.href}
-                class="block py-3.5 text-base text-muted transition-colors hover:text-fg"
-                data-menu-link
-              >
-                {item.label}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
+    <nav aria-label="Primary" class="nav">
+      {
+        nav.map((item) => (
+          <a href={item.href} class="nav-link meta">
+            {item.label}
+          </a>
+        ))
+      }
     </nav>
   </div>
 </header>
 
 <style>
-  .site-header {
-    position: fixed;
-    inset-inline: 0;
+  /* Sticky, not fixed: the page pushes it, so there is no floating bar
+     hovering over the content and no backdrop blur to fake separation. */
+  .header {
+    position: sticky;
     top: 0;
     z-index: 50;
+    background: var(--paper);
+    border-bottom: 1px solid var(--rule);
   }
 
-  .header-bar {
-    border-bottom: 1px solid transparent;
-    transition:
-      background-color 0.3s ease,
-      border-color 0.3s ease,
-      backdrop-filter 0.3s ease;
+  .header-inner {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: 1.125rem;
   }
 
-  .site-header[data-scrolled='true'] .header-bar {
-    border-bottom-color: var(--line);
-    background-color: color-mix(in oklab, var(--bg) 80%, transparent);
-    backdrop-filter: blur(16px) saturate(1.4);
+  .brand {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
   }
 
-  .mark {
-    display: grid;
-    place-items: center;
-    width: 2rem;
-    height: 2rem;
-    border-radius: 0.5rem;
-    border: 1px solid var(--line);
-    background: var(--surface);
-    font-family: var(--font-mono);
-    font-size: 0.7rem;
-    font-weight: 700;
-    color: var(--accent);
-    transition:
-      border-color 0.3s ease,
-      box-shadow 0.3s ease;
+  .brand-name {
+    font-size: 1rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
   }
 
-  .group:hover .mark {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 4px var(--accent-glow);
+  .brand-role {
+    display: none;
   }
 
-  .icon-button {
-    display: grid;
-    place-items: center;
-    width: 2.25rem;
-    height: 2.25rem;
-    border-radius: 0.5rem;
-    border: 1px solid var(--line);
-    color: var(--fg-muted);
-    transition:
-      border-color 0.2s ease,
-      color 0.2s ease;
-  }
-
-  .icon-button:hover {
-    border-color: var(--line-strong);
-    color: var(--fg);
-  }
-
-  /* The breakpoint lives here rather than in a Tailwind `md:hidden` utility:
-     these rules set `display` themselves, and at equal specificity the scoped
-     styles would win over the utility. */
-  @media (min-width: 768px) {
-    .menu-button,
-    .mobile-menu {
-      display: none;
+  @media (min-width: 640px) {
+    .brand-role {
+      display: inline;
     }
   }
 
-  .mobile-menu {
-    display: grid;
-    grid-template-rows: 0fr;
-    overflow: hidden;
-    border-bottom: 1px solid transparent;
-    background: color-mix(in oklab, var(--bg) 95%, transparent);
-    backdrop-filter: blur(16px);
-    transition:
-      grid-template-rows 0.4s var(--ease-out-expo),
-      border-color 0.4s ease;
+  .nav {
+    display: flex;
+    gap: 1.5rem;
   }
 
-  .mobile-menu[data-open='true'] {
-    grid-template-rows: 1fr;
-    border-bottom-color: var(--line);
+  .nav-link {
+    color: var(--ink-muted);
+    padding-block: 0.25rem;
+    transition: color 0.2s ease;
+    position: relative;
   }
 
-  .menu-item {
-    border-bottom: 1px solid color-mix(in oklab, var(--line) 60%, transparent);
+  /* Rule grows from the left on hover rather than a pill or a background. */
+  .nav-link::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    height: 1px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s var(--ease-out-expo);
   }
 
-  .menu-item:last-child {
-    border-bottom: 0;
+  .nav-link:hover,
+  .nav-link:focus-visible {
+    color: var(--accent);
+  }
+
+  .nav-link:hover::after,
+  .nav-link:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  /* The nav is four short words. Below 480px they wrap to a second line, which
+     is fine and much better than hiding them behind a hamburger. */
+  @media (max-width: 479px) {
+    .header-inner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.625rem;
+    }
+
+    .nav {
+      gap: 1.125rem;
+    }
   }
 </style>
-
-<script>
-  const header = document.getElementById('site-header');
-  const button = document.getElementById('menu-button');
-  const menu = document.getElementById('mobile-menu');
-
-  // Border + blur only appear once the page has scrolled off the top.
-  if (header) {
-    const onScroll = () => {
-      header.dataset.scrolled = String(window.scrollY > 8);
-    };
-    onScroll();
-    window.addEventListener('scroll', onScroll, { passive: true });
-  }
-
-  if (button && menu) {
-    const setOpen = (open: boolean) => {
-      menu.dataset.open = String(open);
-      button.setAttribute('aria-expanded', String(open));
-      button.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
-    };
-
-    button.addEventListener('click', () => {
-      setOpen(menu.dataset.open !== 'true');
-    });
-
-    menu.querySelectorAll('[data-menu-link]').forEach((link) => {
-      link.addEventListener('click', () => setOpen(false));
-    });
-
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && menu.dataset.open === 'true') {
-        setOpen(false);
-        button.focus();
-      }
-    });
-
-    // Reset state if the viewport grows past the mobile breakpoint.
-    window.matchMedia('(min-width: 768px)').addEventListener('change', (event) => {
-      if (event.matches) setOpen(false);
-    });
-  }
-</script>

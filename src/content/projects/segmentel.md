@@ -4,6 +4,7 @@ summary: A puzzle game built around segmentation — dividing and recombining sp
 order: 75
 year: '2023'
 kind: Game
+discipline: Puzzle
 tech: ['Unity', 'C#', 'Gameplay systems']
 featured: false
 cover: './covers/segmentel.png'

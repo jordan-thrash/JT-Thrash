@@ -18,8 +18,14 @@ const projects = defineCollection({
       /** Sorts the grid; higher surfaces first. */
       order: z.number().default(0),
       year: z.string(),
-      /** Drives the coloured category chip and the generated cover's hue. */
+      /** Broad category. Only used to pick the generated cover's hue. */
       kind: z.enum(['Game', 'Web', 'Tool', 'Backend']),
+      /**
+       * Short human description of what the project *is*, shown in the index
+       * beside the title — "Tower defense", "Developer tooling". Two or three
+       * words; it is a column, not a sentence.
+       */
+      discipline: z.string(),
       tech: z.array(z.string()).min(1),
       /** Pinned to the large hero slots at the top of the work grid. */
       featured: z.boolean().default(false),

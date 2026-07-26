@@ -3,16 +3,16 @@ import Base from '../layouts/Base.astro';
 ---
 
 <Base title="Not found" description="That page does not exist.">
-  <div class="notfound grid-bg">
-    <div class="container-page notfound-inner">
-      <p class="label">Error 404</p>
-      <h1 class="notfound-title">This page didn't generate.</h1>
+  <div class="notfound">
+    <div class="container-page">
+      <span class="meta notfound-code">Error 404</span>
+      <h1 class="notfound-title display">This page didn't generate.</h1>
       <p class="notfound-text">
         The link is broken, or it pointed at something on the old site that didn't make the move.
       </p>
       <div class="notfound-actions">
-        <a href="/" class="button-primary">Back home</a>
-        <a href="/work" class="button-ghost">Browse the work</a>
+        <a href="/" class="action">Home</a>
+        <a href="/#work" class="action">The index</a>
       </div>
     </div>
   </div>
@@ -20,75 +20,48 @@ import Base from '../layouts/Base.astro';
 
 <style>
   .notfound {
-    min-height: 80svh;
-    display: flex;
-    align-items: center;
-    padding-block: 8rem 4rem;
+    padding-block: clamp(4rem, 14vw, 10rem);
   }
 
-  .notfound-inner {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
+  .notfound-code {
+    color: var(--accent);
+    display: block;
+    padding-bottom: 1.25rem;
+    border-bottom: 1px solid var(--ink);
   }
 
   .notfound-title {
-    font-size: clamp(2rem, 6vw, 3.25rem);
-    font-weight: 700;
-    letter-spacing: -0.035em;
-    color: var(--fg);
+    margin-top: 2.5rem;
+    font-size: clamp(2.25rem, 8vw, 5rem);
+    max-width: 14ch;
   }
 
   .notfound-text {
-    max-width: 34rem;
+    margin-top: 1.5rem;
+    max-width: 44ch;
     font-size: 1.0625rem;
     line-height: 1.65;
-    color: var(--fg-muted);
+    color: var(--ink-muted);
   }
 
   .notfound-actions {
     display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-top: 1.25rem;
+    gap: 2rem;
+    margin-top: 2.5rem;
   }
 
-  .button-primary,
-  .button-ghost {
-    display: inline-flex;
-    align-items: center;
-    height: 2.75rem;
-    padding-inline: 1.375rem;
-    border-radius: 0.625rem;
+  .action {
     font-size: 0.9375rem;
-    border: 1px solid transparent;
+    font-weight: 500;
+    padding-bottom: 0.35rem;
+    border-bottom: 1px solid var(--ink);
     transition:
-      background-color 0.25s ease,
-      border-color 0.25s ease,
-      color 0.25s ease,
-      transform 0.25s var(--ease-out-expo);
+      color 0.2s ease,
+      border-color 0.2s ease;
   }
 
-  .button-primary {
-    background: var(--accent);
-    color: var(--accent-contrast);
-    font-weight: 600;
-  }
-
-  .button-primary:hover {
-    background: var(--accent-hover);
-    transform: translateY(-2px);
-  }
-
-  .button-ghost {
-    border-color: var(--line-strong);
-    color: var(--fg);
-  }
-
-  .button-ghost:hover {
-    border-color: var(--accent);
+  .action:hover {
     color: var(--accent);
-    transform: translateY(-2px);
+    border-bottom-color: var(--accent);
   }
 </style>
