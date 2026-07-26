@@ -145,10 +145,13 @@ that keep it coherent are:
 - **One theme** — warm paper, near-black ink, a single vermillion accent used
   sparingly. Colour is authored in OKLCH behind semantic variables in
   `src/styles/global.css`; changing `--accent` there re-skins the whole site.
-- **Two voices in the type** — Instrument Serif for statements (headline,
-  section titles, project names), Archivo for interface and body text,
-  JetBrains Mono for anything that reads as a specification. The contrast
-  between them is the site's signature; keep it.
+- **One typeface, two registers.** Everything except monospace metadata is
+  Archivo. Display type is the same family pushed out on the variable axes —
+  `font-weight: 800`, `font-stretch: 116%`, tight negative tracking. Body text
+  sits at normal width and weight. The width axis is what separates a statement
+  from interface text, so reach for `font-stretch` before reaching for another
+  font. JetBrains Mono is the only second family, reserved for things that read
+  as a specification: years, column headers, labels, section numbers.
 - **The index is the centrepiece.** Projects are a numbered table, not a grid.
   Hovering a row wipes it vermillion and floats a preview beside the cursor;
   on touch and narrow screens that becomes an inline thumbnail instead.
@@ -168,3 +171,8 @@ that keep it coherent are:
 | `npm run og` | Rebuilds `public/og.png`, the social share card |
 
 Re-run `npm run og` after changing your name, role or the accent colour.
+
+`npm run og` resolves fonts through the operating system rather than
+node_modules, so it needs [Archivo](https://fonts.google.com/specimen/Archivo)
+installed locally to match the site. Without it the card still renders, just in
+a fallback grotesque — the script warns you when that happens.

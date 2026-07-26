@@ -77,8 +77,8 @@ import { hero, site, contact } from '../data/site';
   .hero-headline {
     margin-top: clamp(2rem, 5vw, 3.5rem);
     /* Big. This is the one place on the site where type is the entire design. */
-    font-size: clamp(3.25rem, 12.5vw, 11rem);
-    max-width: 14ch;
+    font-size: clamp(2.75rem, 10vw, 8.5rem);
+    max-width: 13ch;
   }
 
   .hero-line {
@@ -99,9 +99,10 @@ import { hero, site, contact } from '../data/site';
     animation-delay: 0.18s;
   }
 
-  /* Italic emphasis inside the headline, marked up in the data file. */
+  /* Emphasis inside the headline, marked up in the data file. Colour alone —
+     an italic at this width and weight fights the rest of the line. */
   .hero-headline :global(em) {
-    font-style: italic;
+    font-style: normal;
     color: var(--accent);
   }
 
