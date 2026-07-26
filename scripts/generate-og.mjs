@@ -20,8 +20,8 @@ import { execSync } from 'node:child_process';
 import sharp from 'sharp';
 
 const NAME = 'Jordan Thrash';
-const ROLE = 'Game Developer';
-const SPEC = 'Unity · C# · VR · Procedural generation';
+const ROLE = 'Software Engineer';
+const SPEC = 'Backend · Applications · Platforms · Games';
 const SITE = 'jordanthrash.netlify.app';
 
 const WIDTH = 1200;
@@ -73,10 +73,10 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${
 
   <!-- Display lines, matching the site's wide/heavy register -->
   <text x="78" y="352" font-family="${DISPLAY}" font-size="122" font-weight="800" font-stretch="expanded" fill="${INK}" letter-spacing="-4">
-    Systems
+    I build the
   </text>
   <text x="78" y="466" font-family="${DISPLAY}" font-size="122" font-weight="800" font-stretch="expanded" fill="${INK}" letter-spacing="-4">
-    you can <tspan fill="${ACCENT}">play.</tspan>
+    <tspan fill="${ACCENT}">whole</tspan> system.
   </text>
 
   <line x1="80" y1="534" x2="${WIDTH - 80}" y2="534" stroke="${INK}" stroke-opacity="0.18" stroke-width="1"/>

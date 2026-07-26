@@ -15,7 +15,7 @@
  * (`scripts/fetch-weebly-images.mjs` does that for the images still on Weebly).
  */
 
-import { readdir, readFile, mkdir } from 'node:fs/promises';
+import { readdir, mkdir } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 import sharp from 'sharp';
@@ -159,19 +159,6 @@ function buildSvg({ slug }) {
 </svg>`;
 }
 
-/** Minimal frontmatter reader — enough for the one field we need. */
-function readFrontmatter(raw) {
-  const match = raw.match(/^---\r?\n([\s\S]*?)\r?\n---/);
-  if (!match) return {};
-  const fields = {};
-  for (const line of match[1].split(/\r?\n/)) {
-    const kv = line.match(/^(\w+):\s*(.+)$/);
-    if (!kv) continue;
-    fields[kv[1]] = kv[2].trim().replace(/^['"]|['"]$/g, '');
-  }
-  return fields;
-}
-
 async function main() {
   await mkdir(COVERS_DIR, { recursive: true });
 
@@ -188,8 +175,6 @@ async function main() {
       skipped++;
       continue;
     }
-
-    await readFile(path.join(PROJECTS_DIR, file), 'utf8').then(readFrontmatter);
 
     await sharp(Buffer.from(buildSvg({ slug })))
       .png({ compressionLevel: 9 })

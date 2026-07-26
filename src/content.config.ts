@@ -18,8 +18,12 @@ const projects = defineCollection({
       /** Sorts the grid; higher surfaces first. */
       order: z.number().default(0),
       year: z.string(),
-      /** Broad category. Only used to pick the generated cover's hue. */
-      kind: z.enum(['Game', 'Web', 'Tool', 'Backend']),
+      /**
+       * Broad category. Nothing is styled by it today — it exists so the index
+       * can be grouped or filtered later without a migration. Add to the list
+       * as new kinds of work land.
+       */
+      kind: z.enum(['Game', 'App', 'Web', 'Backend', 'Platform', 'Tool']),
       /**
        * Short human description of what the project *is*, shown in the index
        * beside the title — "Tower defense", "Developer tooling". Two or three

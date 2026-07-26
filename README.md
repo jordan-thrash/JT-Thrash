@@ -49,11 +49,12 @@ Weebly blocks automated page fetches, so only your homepage source was available
 Everything from your `about-me.html`, `my-skills.html` and `contact.html` pages
 had to be reconstructed. Fields needing review are marked `@verify`:
 
-- Your bio (`about.paragraphs`) — written from your project list, not your words
+- Your bio (`about.paragraphs`) — written from your public work, not your words
+- The capability areas in `about.stack` — trim anything you would not want to be
+  interviewed on
 - Job titles, companies and dates in `experience`
 - `education`
 - The email address in `contact.email`
-- The hero stats (`13` projects, `6` years, VR)
 
 The project write-ups have the same issue. Files containing
 `<!-- TODO: replace with the write-up from the old site's ... -->` have
@@ -63,40 +64,41 @@ Weebly page and delete the comment.
 Confident and carried over verbatim: **MyLogger** (from your GitHub description)
 and **Splittle** (from your public write-up).
 
+### On positioning
+
+The site frames you as a software engineer and app developer whose range covers
+backends, applications, platforms and games — not as a game developer. The old
+Weebly site said "Game Developer" throughout; that framing is gone deliberately.
+
+The index is still mostly games, because that is what has shipped so far. The
+copy handles this honestly rather than pretending otherwise: the hero and the
+About section present game development as where the systems habits came from,
+not as the ceiling. As you add backend and application projects the balance
+corrects itself and none of that copy needs to change.
+
 ---
 
 ## Editing content
 
-### Adding or changing a project
+### Adding a project
 
-One markdown file per project in `src/content/projects/`. The filename becomes
-the URL — `splittle.md` → `/work/splittle`.
+Copy `src/content/projects/_example.md`, rename it, fill it in and set
+`draft: false`. That file documents every field inline, so it is the fastest
+path — you should not need this section.
 
-```markdown
----
-title: Project Name
-summary: One or two sentences. Used for link previews and the detail page.
-order: 80                  # higher sorts to the top of the index
-year: '2024'
-kind: Game                 # Game | Tool | Web | Backend — only picks the cover motif
-discipline: Tower defense  # the index's "Discipline" column. Two or three words.
-tech: ['Unity', 'C#']      # the index's "Built with" column
-featured: false
-links:
-  - label: 'itch.io'
-    href: 'https://...'
-cover: './covers/project-name.png'
-draft: false               # true hides it from production builds
----
-
-Markdown body — becomes the project detail page.
-```
+The filename becomes the URL: `vend-ready.md` → `/work/vend-ready`. Use
+`order` to place it in the index (highest first); leave gaps between numbers so
+you can slot things in later without renumbering.
 
 The schema in `src/content.config.ts` is enforced at build time, so a typo in a
-field name fails the build instead of rendering an empty row.
+field name fails the build instead of rendering an empty row. If you add a
+category that `kind` does not cover, add it to the enum there — nothing is
+styled by it today, it exists so the index can be grouped or filtered later
+without a migration.
 
-New project with no screenshot yet? Run `npm run covers` and it generates
-matching placeholder artwork for anything missing.
+No screenshot yet? Run `npm run covers` and it generates matching placeholder
+artwork for anything missing. It never overwrites a real image, so you can drop
+the screenshot in later and it just takes over.
 
 ### Everything else
 
