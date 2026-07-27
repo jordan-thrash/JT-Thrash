@@ -19,7 +19,8 @@
     "covers:force": "node scripts/generate-covers.mjs --force",
     "og": "node scripts/generate-og.mjs",
     "preview:file": "node scripts/inline-preview.mjs",
-    "fetch:weebly": "node scripts/fetch-weebly-images.mjs"
+    "fetch:weebly": "node scripts/fetch-weebly-images.mjs",
+    "covers:process": "node scripts/process-covers.mjs"
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",

@@ -46,15 +46,28 @@ screenshots. Your actual game screenshots are still sitting on the Weebly
 servers, and they disappear when you take that site down.
 
 ```bash
+npm install          # if you haven't already — the fetch needs sharp
 npm run fetch:weebly
 ```
 
-That downloads all 13 screenshots and letterboxes them into a consistent 3:2
-frame on the site's paper color, so nothing gets cropped — your Splittle capture
-is a 330x679 phone screenshot and Mayz is a square logo, and a `cover` crop would
-cut the subject out of both. They land in `src/content/projects/covers/`, where
-the site already expects them, overwriting the placeholders. `npm run
-covers:force` brings the placeholders back if you ever want them.
+It runs in two stages, on purpose:
+
+1. **Download the originals** into `covers/_originals/`. This needs nothing but
+   Node, so a broken toolchain can't block the one step you can't redo later.
+2. **Build the covers** at `covers/<slug>.png` — 1200x800, letterboxed onto the
+   site's paper color so nothing is cropped. Your Splittle capture is a 330x679
+   phone screenshot and Mayz is a square logo; a crop would cut the subject out
+   of both. Small sources are never upscaled, so the 420x280 MyLogger image
+   stays sharp instead of being blown up 2.9x.
+
+If sharp is missing, stage 1 still completes and it tells you to run
+`npm install && npm run covers:process`. Each download is checked against the
+dimensions recorded in the old gallery markup, so a wrong or substituted file
+gets flagged instead of quietly becoming a cover.
+
+Commit the originals as well as the covers. With them in the repo, covers can be
+rebuilt any time via `npm run covers:process` without ever touching Weebly
+again.
 
 **Run it before the Weebly site goes away.** After that the images are gone.
 
@@ -221,6 +234,7 @@ that keep it coherent are:
 | --- | --- |
 | `npm run lint:copy` | Checks the prose for machine-written tells (see below) |
 | `npm run fetch:weebly` | Downloads project screenshots from the old Weebly site |
+| `npm run covers:process` | Rebuilds covers from saved originals, no network needed |
 | `npm run covers` | Generates placeholder covers for projects missing one |
 | `npm run covers:force` | Regenerates every placeholder cover |
 | `npm run og` | Rebuilds `public/og.png`, the social share card |
