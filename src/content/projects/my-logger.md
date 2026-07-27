@@ -10,7 +10,7 @@ featured: true
 links:
   - label: 'GitHub'
     href: 'https://github.com/orgs/Thrash-Gamedev/repositories'
-cover: './covers/my-logger.png'
+cover: './covers/my-logger.webp'
 ---
 
 Unity's console is fine until twenty systems are logging at once. Then it turns

@@ -168,7 +168,7 @@ async function main() {
 
   for (const file of files) {
     const slug = file.replace(/\.md$/, '');
-    const target = path.join(COVERS_DIR, `${slug}.png`);
+    const target = path.join(COVERS_DIR, `${slug}.webp`);
 
     // Never overwrite a real screenshot that has been dropped in.
     if (!force && existsSync(target)) {
@@ -177,7 +177,7 @@ async function main() {
     }
 
     await sharp(Buffer.from(buildSvg({ slug })))
-      .png({ compressionLevel: 9 })
+      .webp({ quality: 92 })
       .toFile(target);
     written++;
   }

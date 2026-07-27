@@ -7,7 +7,7 @@ kind: Game
 discipline: Atmospheric
 tech: ['Unity', 'C#', 'Environment art']
 featured: false
-cover: './covers/belonging-to-soil.png'
+cover: './covers/belonging-to-soil.webp'
 ---
 
 <!-- TODO: replace with the write-up from the old site's belonging-to-soil.html -->

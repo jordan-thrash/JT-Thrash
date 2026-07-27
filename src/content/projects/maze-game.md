@@ -10,7 +10,7 @@ featured: false
 links:
   - label: 'GitHub'
     href: 'https://github.com/jordan-thrash/MazeGen'
-cover: './covers/maze-game.png'
+cover: './covers/maze-game.webp'
 ---
 
 <!-- TODO: replace with the write-up from the old site's maze-game.html -->

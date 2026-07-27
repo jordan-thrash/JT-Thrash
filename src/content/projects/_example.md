@@ -42,7 +42,7 @@ links:
 
 # Drop a screenshot at this path (3:2 crops best). If the file doesn't exist,
 # run `npm run covers` and a placeholder is generated for you.
-cover: './covers/_example.png'
+cover: './covers/_example.webp'
 
 draft: true
 ---

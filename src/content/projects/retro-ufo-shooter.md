@@ -7,7 +7,7 @@ kind: Game
 discipline: Arcade shooter
 tech: ['Unity', 'C#', 'Gameplay systems']
 featured: false
-cover: './covers/retro-ufo-shooter.png'
+cover: './covers/retro-ufo-shooter.webp'
 ---
 
 <!-- TODO: replace with the write-up from the old site's retro-ufo-shooter.html -->

@@ -10,7 +10,7 @@ featured: true
 links:
   - label: 'itch.io'
     href: 'https://jthrash52.itch.io/'
-cover: './covers/splittle.png'
+cover: './covers/splittle.webp'
 ---
 
 Splittle runs on a single mechanic: a ball that splits, and a timer that doesn't

@@ -7,7 +7,7 @@ kind: Game
 discipline: Agent simulation
 tech: ['Unity', 'C#', 'AI', 'Simulation']
 featured: true
-cover: './covers/predator-prey-simulation.png'
+cover: './covers/predator-prey-simulation.webp'
 ---
 
 <!-- TODO: replace with the write-up from the old site's predator-prey-simulation.html -->

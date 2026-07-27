@@ -7,7 +7,7 @@ kind: Game
 discipline: Arcade
 tech: ['Unity', 'C#']
 featured: false
-cover: './covers/saucy-fields.png'
+cover: './covers/saucy-fields.webp'
 ---
 
 <!-- TODO: replace with the write-up from the old site's saucy-fields.html -->

@@ -41,9 +41,9 @@ because only you know which is which.
 
 ### 1. Pull your screenshots off Weebly — do this first
 
-The project covers are currently **generated placeholder artwork**, not your real
-screenshots. Your actual game screenshots are still sitting on the Weebly
-servers, and they disappear when you take that site down.
+Done — all 13 real screenshots are in, with the untouched originals archived
+under `covers/_originals/`. Keep this section for reference if you ever need to
+re-run it.
 
 ```bash
 npm install          # if you haven't already — the fetch needs sharp
@@ -54,11 +54,11 @@ It runs in two stages, on purpose:
 
 1. **Download the originals** into `covers/_originals/`. This needs nothing but
    Node, so a broken toolchain can't block the one step you can't redo later.
-2. **Build the covers** at `covers/<slug>.png` — 1200x800, letterboxed onto the
+2. **Build the covers** at `covers/<slug>.webp` — 1200x800, letterboxed onto the
    site's paper color so nothing is cropped. Your Splittle capture is a 330x679
    phone screenshot and Mayz is a square logo; a crop would cut the subject out
-   of both. Small sources are never upscaled, so the 420x280 MyLogger image
-   stays sharp instead of being blown up 2.9x.
+   of both. WebP at quality 90: the same set as lossless PNG came to 9 MB,
+   which is a lot to carry in git and re-encode every build.
 
 If sharp is missing, stage 1 still completes and it tells you to run
 `npm install && npm run covers:process`. Each download is checked against the
@@ -69,7 +69,7 @@ Commit the originals as well as the covers. With them in the repo, covers can be
 rebuilt any time via `npm run covers:process` without ever touching Weebly
 again.
 
-**Run it before the Weebly site goes away.** After that the images are gone.
+The originals are now in the repo, so this never needs running again.
 
 ### 2. Check the facts in `src/data/site.ts`
 
@@ -82,7 +82,7 @@ had to be reconstructed. Fields needing review are marked `@verify`:
   interviewed on
 - Job titles, companies and dates in `experience`
 - `education`
-- The email address in `contact.email`
+- The links in `contact.links`. The email address is confirmed correct.
 
 The project write-ups have the same issue. Files containing
 `<!-- TODO: replace with the write-up from the old site's ... -->` have

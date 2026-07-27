@@ -119,11 +119,10 @@ export const education = [
 ] as const;
 
 /**
- * @verify — especially the email address, which is the single most important
- * link on the site.
+ * @verify — the links below. The email address is confirmed correct.
  */
 export const contact = {
-  email: 'thrashstores@gmail.com',
+  email: 'jordanthrash52@gmail.com',
   /** Headline for the contact section. */
   pitch: 'Open to product work, contract builds, and anything with an interesting system in it.',
   links: [

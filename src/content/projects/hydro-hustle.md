@@ -7,7 +7,7 @@ kind: Game
 discipline: Physics arcade
 tech: ['Unity', 'C#', 'Physics simulation']
 featured: false
-cover: './covers/hydro-hustle.png'
+cover: './covers/hydro-hustle.webp'
 ---
 
 <!-- TODO: replace with the write-up from the old site's hydro-hustle.html -->

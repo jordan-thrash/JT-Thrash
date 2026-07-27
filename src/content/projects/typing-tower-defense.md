@@ -7,7 +7,7 @@ kind: Game
 discipline: Tower defense
 tech: ['Unity', 'C#', 'Gameplay systems']
 featured: true
-cover: './covers/typing-tower-defense.png'
+cover: './covers/typing-tower-defense.webp'
 ---
 
 <!-- TODO: replace with the write-up from the old site's typing-tower-defense.html -->

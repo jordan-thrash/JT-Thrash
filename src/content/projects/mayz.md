@@ -7,7 +7,7 @@ kind: Game
 discipline: Maze game
 tech: ['Unity', 'C#', 'Procedural generation']
 featured: false
-cover: './covers/mayz.png'
+cover: './covers/mayz.webp'
 ---
 
 <!-- TODO: replace with the write-up from the old site's mayz.html -->

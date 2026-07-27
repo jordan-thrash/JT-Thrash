@@ -7,7 +7,7 @@ kind: Game
 discipline: Physics action
 tech: ['Unity', 'C#', 'Physics simulation']
 featured: false
-cover: './covers/bullet-game.png'
+cover: './covers/bullet-game.webp'
 ---
 
 <!-- TODO: replace with the write-up from the old site's bullet-game.html -->

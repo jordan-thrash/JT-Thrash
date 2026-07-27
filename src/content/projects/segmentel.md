@@ -7,7 +7,7 @@ kind: Game
 discipline: Puzzle
 tech: ['Unity', 'C#', 'Gameplay systems']
 featured: false
-cover: './covers/segmentel.png'
+cover: './covers/segmentel.webp'
 ---
 
 <!-- TODO: replace with the write-up from the old site's segmentel.html -->

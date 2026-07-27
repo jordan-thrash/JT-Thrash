@@ -7,7 +7,7 @@ kind: Game
 discipline: First-person horror
 tech: ['Unity', 'C#', 'Procedural generation', 'AI']
 featured: false
-cover: './covers/horror-maze-project.png'
+cover: './covers/horror-maze-project.webp'
 ---
 
 <!-- TODO: replace with the write-up from the old site's horror-maze-project.html -->
