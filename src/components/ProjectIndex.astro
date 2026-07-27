@@ -30,7 +30,12 @@ const { projects } = Astro.props;
           >
             <span class="row-num meta">{String(i + 1).padStart(2, '0')}</span>
 
-            <span class="row-title">{project.data.title}</span>
+            <span class="row-title">
+              {project.data.title}
+              {project.data.status && project.data.status !== 'Shipped' && (
+                <span class="row-status">{project.data.status}</span>
+              )}
+            </span>
 
             <span class="row-kind">{project.data.discipline}</span>
 
@@ -163,10 +168,12 @@ const { projects } = Astro.props;
     .row:hover .row-year,
     .row:hover .row-kind,
     .row:hover .row-tech,
+    .row:hover .row-status,
     .row:focus-visible .row-num,
     .row:focus-visible .row-year,
     .row:focus-visible .row-kind,
-    .row:focus-visible .row-tech {
+    .row:focus-visible .row-tech,
+    .row:focus-visible .row-status {
       color: color-mix(in oklab, var(--paper) 82%, transparent);
     }
   }
@@ -183,6 +190,22 @@ const { projects } = Astro.props;
     font-size: clamp(1.1875rem, 2.4vw, 1.5rem);
     line-height: 1.1;
     letter-spacing: -0.022em;
+  }
+
+  /* Only anything other than "Shipped" is called out — a qualifier is worth
+     printing, a claim of completeness is not. */
+  .row-status {
+    font-family: var(--font-mono);
+    font-size: 0.625rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    white-space: nowrap;
+    /* Lifted off the baseline so it reads as an annotation, not part of the title. */
+    vertical-align: 0.35em;
+    margin-left: 0.5rem;
+    transition: color 0.2s ease;
   }
 
   .row-kind {

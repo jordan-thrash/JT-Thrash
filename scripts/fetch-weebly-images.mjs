@@ -15,8 +15,7 @@
  * Do this before you take the Weebly site down. Once it is gone, so are these.
  */
 
-import { writeFile, mkdir, rename } from 'node:fs/promises';
-import { existsSync } from 'node:fs';
+import { writeFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import sharp from 'sharp';
 
@@ -43,6 +42,9 @@ const IMAGES = {
 
 const WIDTH = 1200;
 const HEIGHT = 800;
+
+// Matches --paper in src/styles/global.css, so letterbox bars vanish into the page.
+const PAPER = { r: 244, g: 241, b: 235, alpha: 1 };
 
 async function download(url) {
   const response = await fetch(url, {
@@ -83,27 +85,16 @@ async function main() {
       const buffer = await download(url);
 
       // `contain` rather than `cover`: these are screenshots at wildly different
-      // aspect ratios, and cropping a game screenshot tends to cut the subject
-      // out. Letterboxing onto a dark field keeps the whole frame visible and
-      // matches the surrounding UI.
+      // aspect ratios — one is a 330x679 phone capture, another a 512x512 logo —
+      // and cropping to 3:2 would cut the subject out of half of them.
+      // Letterboxing onto the site's paper colour keeps every frame whole and
+      // makes the padding disappear into the page.
       const output = await sharp(buffer)
-        .resize(WIDTH, HEIGHT, {
-          fit: 'contain',
-          background: { r: 16, g: 17, b: 20, alpha: 1 },
-        })
-        .png({ quality: 90, compressionLevel: 9 })
+        .resize(WIDTH, HEIGHT, { fit: 'contain', background: PAPER })
+        .png({ compressionLevel: 9 })
         .toBuffer();
 
-      const target = path.join(COVERS_DIR, `${slug}.png`);
-
-      // Keep the generated placeholder around on first replacement, in case a
-      // download turns out to be the wrong image.
-      const backup = path.join(COVERS_DIR, `${slug}.generated.png`);
-      if (existsSync(target) && !existsSync(backup)) {
-        await rename(target, backup);
-      }
-
-      await writeFile(target, output);
+      await writeFile(path.join(COVERS_DIR, `${slug}.png`), output);
       console.log(`ok  (${(output.length / 1024).toFixed(0)} kB)`);
       ok++;
     } catch (error) {
@@ -121,10 +112,7 @@ async function main() {
     console.log('those keep their generated placeholder covers');
   }
 
-  console.log(
-    '\nGenerated placeholders were kept as *.generated.png — delete them once you\n' +
-      'have confirmed the real screenshots look right.'
-  );
+  console.log('\nRun `npm run covers:force` if you ever want the placeholders back.');
 }
 
 main().catch((error) => {

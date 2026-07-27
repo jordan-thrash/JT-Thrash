@@ -14,7 +14,7 @@ export const getStaticPaths = (async () => {
 }) satisfies GetStaticPaths;
 
 const { project, projects } = Astro.props;
-const { title, summary, discipline, year, tech, links, cover } = project.data;
+const { title, summary, discipline, status, year, tech, links, cover } = project.data;
 const { Content } = await render(project);
 
 // Next project in display order, wrapping around, so no page dead-ends.
@@ -69,6 +69,14 @@ const indexNumber = String(currentIndex + 1).padStart(2, '0');
               <dt class="meta">Discipline</dt>
               <dd>{discipline}</dd>
             </div>
+            {
+              status && (
+                <div class="spec-row">
+                  <dt class="meta">Status</dt>
+                  <dd>{status}</dd>
+                </div>
+              )
+            }
             <div class="spec-row">
               <dt class="meta">Year</dt>
               <dd>{year}</dd>

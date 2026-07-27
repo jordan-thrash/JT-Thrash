@@ -24,7 +24,20 @@ Node 22 or newer.
 
 ## Before you launch
 
-Two things need your attention. Everything else works as-is.
+Three things need your attention. Everything else works as-is.
+
+### 0. Mark what each project actually is
+
+Every project takes an optional `status`:
+
+```yaml
+status: Prototype   # Shipped | Playable | Prototype | In progress | Shelved
+```
+
+Leave it out and the site claims nothing. Anything other than `Shipped` prints
+beside the title in the index, so an unfinished project can sit in the list
+honestly rather than being hidden or oversold. Nothing is marked right now,
+because only you know which is which.
 
 ### 1. Pull your screenshots off Weebly — do this first
 
@@ -36,10 +49,12 @@ servers, and they disappear when you take that site down.
 npm run fetch:weebly
 ```
 
-That downloads all 13 screenshots, normalizes them to a consistent 3:2 frame, and
-drops them into `src/content/projects/covers/` where the site already expects
-them. The generated placeholders are kept alongside as `*.generated.png` so you
-can compare — delete those once you're happy.
+That downloads all 13 screenshots and letterboxes them into a consistent 3:2
+frame on the site's paper color, so nothing gets cropped — your Splittle capture
+is a 330x679 phone screenshot and Mayz is a square logo, and a `cover` crop would
+cut the subject out of both. They land in `src/content/projects/covers/`, where
+the site already expects them, overwriting the placeholders. `npm run
+covers:force` brings the placeholders back if you ever want them.
 
 **Run it before the Weebly site goes away.** After that the images are gone.
 
@@ -79,8 +94,8 @@ Two rules if you rewrite any of this:
   structured data; the body copy shouldn't repeat it.
 - **Don't apologize for the games.** They're where the systems instincts got
   sharp, not a phase you outgrew. The index is mostly games today because that's
-  what has shipped. As apps and services land the balance corrects itself, and
-  none of the copy needs to change.
+  what exists. As apps and services land the balance corrects itself, and none of
+  the copy needs to change.
 
 ### Keeping the copy from reading like a machine
 

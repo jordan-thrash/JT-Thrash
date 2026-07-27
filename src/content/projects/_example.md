@@ -22,6 +22,12 @@ kind: App
 # "Inventory platform", "Tower defense".
 discipline: Short category
 
+# Optional: Shipped | Playable | Prototype | In progress | Shelved
+# Leave it out and the site makes no claim either way. Anything other than
+# Shipped is printed next to the title in the index, so a half-finished thing
+# can sit in the list honestly instead of being hidden or oversold.
+# status: Prototype
+
 # The index's "Built with" column, in the order you want them read.
 tech: ['TypeScript', 'React', 'PostgreSQL']
 

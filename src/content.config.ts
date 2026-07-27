@@ -30,6 +30,12 @@ const projects = defineCollection({
        * words; it is a column, not a sentence.
        */
       discipline: z.string(),
+      /**
+       * How finished it actually is. Optional on purpose: when it is unset
+       * nothing renders and the site makes no claim either way. Only mark
+       * something `Shipped` if a person outside your house can go play it.
+       */
+      status: z.enum(['Shipped', 'Playable', 'Prototype', 'In progress', 'Shelved']).optional(),
       tech: z.array(z.string()).min(1),
       /** Pinned to the large hero slots at the top of the work grid. */
       featured: z.boolean().default(false),
