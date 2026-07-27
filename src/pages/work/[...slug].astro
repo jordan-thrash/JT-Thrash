@@ -172,16 +172,25 @@ const indexNumber = String(currentIndex + 1).padStart(2, '0');
     color: var(--ink-muted);
   }
 
+  /* Centres the image and supplies the backing for tall ones. */
   .cover {
     border: 1px solid var(--rule);
+    display: flex;
+    justify-content: center;
+    background: var(--paper-sunk);
   }
 
+  /* Each screenshot keeps its own shape. Wide captures run the full width;
+     tall ones stop at a readable height rather than swallowing the viewport —
+     Splittle is a 330x679 phone capture and at full width it stood over two
+     thousand pixels tall. So padding only appears where a portrait image
+     genuinely needs it, instead of being baked into every file. */
   .cover-image {
     display: block;
-    width: 100%;
+    width: auto;
+    max-width: 100%;
     height: auto;
-    aspect-ratio: 3 / 2;
-    object-fit: cover;
+    max-height: min(72vh, 40rem);
   }
 
   .layout {

@@ -241,7 +241,8 @@ const { projects } = Astro.props;
     width: 100%;
     height: auto;
     aspect-ratio: 3 / 2;
-    object-fit: cover;
+    object-fit: contain;
+    background: var(--paper-sunk);
   }
 
   .row-year {
@@ -290,7 +291,11 @@ const { projects } = Astro.props;
     inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    /* `contain`, not `cover`: covers now keep their own aspect ratio, so
+       cropping here would cut the subject out of the wide and tall ones. The
+       frame stays a fixed size so it does not jump about as the cursor moves
+       between rows. */
+    object-fit: contain;
     opacity: 0;
     transition: opacity 0.2s ease;
   }

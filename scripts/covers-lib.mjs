@@ -55,16 +55,15 @@ export async function loadSharp() {
 /**
  * Turns every saved original into a 1200x800 cover.
  *
- * `contain` rather than `cover`: these are screenshots at wildly different
- * aspect ratios — one is a 330x679 phone capture, another a 512x512 logo — and
- * cropping to 3:2 would cut the subject out of half of them.
+ * Covers keep their own aspect ratio. `inside` scales each one to fit within
+ * 1200x800 without cropping and without padding.
  *
- * Small sources are scaled up to fill the frame. An earlier version refused to
- * enlarge, on the theory that softness was worse than nothing; on the page it
- * left MyLogger (420x280) as a stamp adrift in an empty field, which read as
- * broken. Covers display at roughly 380px in the index preview, so even a 2.9x
- * upscale is being scaled back down there — the softness only shows on the
- * detail hero, and it beats the alternative.
+ * Earlier versions letterboxed everything onto a fixed 1200x800 paper field.
+ * That bakes presentation into the asset, and it showed: a 475x232 banner
+ * arrived as a small picture marooned in a large empty rectangle, with no way
+ * for CSS to recover the wasted space. Padding is a layout decision, so it now
+ * lives in the layout — the detail page shows the image at its natural shape,
+ * and only the small floating index preview letterboxes, where it is invisible.
  */
 export async function processAll() {
   const sharp = await loadSharp();
@@ -101,7 +100,7 @@ export async function processAll() {
     // every build. At quality 90 it is 0.8 MB and visually identical. The
     // untouched originals are the archive, so nothing is lost.
     const output = await sharp(buffer)
-      .resize(WIDTH, HEIGHT, { fit: 'contain', background: PAPER })
+      .resize(WIDTH, HEIGHT, { fit: 'inside' })
       .webp({ quality: 90 })
       .toBuffer();
 
