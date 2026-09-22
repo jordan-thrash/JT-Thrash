@@ -1,21 +1,20 @@
 ---
 title: Bullet Game
-summary: A projectile-driven action game where the bullets are the system. How they travel, ricochet and interact is the whole design.
+summary: A sci-fi action project where you control a remote-guided bullet on an assassination mission.
 order: 65
-year: '2022'
 kind: Game
-discipline: Physics action
-tech: ['Unity', 'C#', 'Physics simulation']
+discipline: Guided-bullet action
+tech: ['Unity', 'C#']
 featured: false
 cover: './covers/bullet-game.webp'
 ---
 
-<!-- TODO: replace with the write-up from the old site's bullet-game.html -->
+In Bullet Game, the shot is your character. You pilot a remote-controlled bullet
+for a sci-fi assassination group, guiding it toward the target.
 
-## Systems
+The idea takes a moment that usually passes in a fraction of a second and makes
+it the focus of the game: controlling the bullet's flight through the scene.
 
-<!-- TODO: describe the projectile/physics systems and the map design -->
-
-Physics-driven projectiles are a good example of emergent design: once bullets
-obey consistent rules, players start inventing shots the designer never planned
-for, and the job becomes making sure the rules reward that instead of punishing it.
+<!-- Premise recovered from the indexed original portfolio page:
+https://jordanthrash.weebly.com/bullet-game.html.
+The previous migration's ricochet and physics claims were not in that evidence. -->

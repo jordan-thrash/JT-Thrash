@@ -64,11 +64,6 @@ const personSchema = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
 
-    {/* Gates the scroll-reveal CSS: without JS, nothing is ever hidden. */}
-    <script is:inline>
-      document.documentElement.classList.add('js-reveal');
-    </script>
-
     <script is:inline type="application/ld+json" set:html={JSON.stringify(personSchema)} />
   </head>
 
@@ -103,8 +98,8 @@ const personSchema = {
     </style>
 
     <script>
-      // Scroll reveal. Targets are only hidden once `js-reveal` is on the
-      // documentElement, so this failing leaves the page fully readable.
+      // Enable hiding only after the observer is ready. If this module fails
+      // to load, all of the content remains readable.
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       const targets = document.querySelectorAll<HTMLElement>('[data-reveal]');
 
@@ -121,6 +116,8 @@ const personSchema = {
           },
           { rootMargin: '0px 0px -10% 0px', threshold: 0.05 }
         );
+
+        document.documentElement.classList.add('js-reveal');
 
         targets.forEach((el, i) => {
           // Stagger siblings so index rows cascade instead of popping in at once.

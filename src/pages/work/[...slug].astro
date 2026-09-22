@@ -28,7 +28,7 @@ const indexNumber = String(currentIndex + 1).padStart(2, '0');
   <article>
     <header class="head">
       <div class="container-page">
-        <a href="/#work" class="back meta">← Index</a>
+        <a href="/#work" class="back meta">← All projects</a>
 
         <div class="head-grid">
           <span class="head-number meta">{indexNumber}</span>
@@ -36,6 +36,15 @@ const indexNumber = String(currentIndex + 1).padStart(2, '0');
           <div>
             <h1 class="head-title display">{title}</h1>
             <p class="head-summary">{summary}</p>
+            {links.length > 0 && (
+              <div class="head-links">
+                {links.map((link) => (
+                  <a href={link.href} target="_blank" rel="noopener noreferrer" class="spec-link">
+                    {link.label} ↗
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -77,27 +86,18 @@ const indexNumber = String(currentIndex + 1).padStart(2, '0');
                 </div>
               )
             }
-            <div class="spec-row">
-              <dt class="meta">Year</dt>
-              <dd>{year}</dd>
-            </div>
+            {year && (
+              <div class="spec-row">
+                <dt class="meta">Year</dt>
+                <dd>{year}</dd>
+              </div>
+            )}
             <div class="spec-row">
               <dt class="meta">Built with</dt>
               <dd>{tech.join(', ')}</dd>
             </div>
           </dl>
 
-          {
-            links.length > 0 && (
-              <div class="spec-links">
-                {links.map((link) => (
-                  <a href={link.href} target="_blank" rel="noopener noreferrer" class="spec-link">
-                    {link.label} ↗
-                  </a>
-                ))}
-              </div>
-            )
-          }
         </aside>
 
         <div class="prose body">
@@ -229,11 +229,11 @@ const indexNumber = String(currentIndex + 1).padStart(2, '0');
     color: var(--ink);
   }
 
-  .spec-links {
+  .head-links {
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     align-items: flex-start;
-    gap: 0.5rem;
+    gap: 1rem 1.75rem;
     margin-top: 1.5rem;
   }
 

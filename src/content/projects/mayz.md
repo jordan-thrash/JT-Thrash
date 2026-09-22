@@ -1,20 +1,17 @@
 ---
 title: Mayz
-summary: A maze-based game project, and the most developed entry in a long-running interest in generated space.
+summary: A maze game with glowing cyan paths and geometric characters.
 order: 70
-year: '2021'
 kind: Game
 discipline: Maze game
-tech: ['Unity', 'C#', 'Procedural generation']
+tech: ['Unity', 'C#']
 featured: false
 cover: './covers/mayz.webp'
 ---
 
-<!-- TODO: replace with the write-up from the old site's mayz.html -->
+Mayz is one of my maze game projects. Its artwork uses luminous cyan paths
+against a black background, with simple geometric characters in cyan and purple.
 
-## Systems
-
-<!-- TODO: describe what Mayz is and how it differs from the earlier maze projects -->
-
-Mazes keep coming back across my projects. First as a pure generation exercise,
-then as horror level design, and here as a game in their own right.
+<!-- Original write-up unavailable. This brief description uses the checked-in
+artwork and existing project identity. Removed unsupported comparative and
+procedural-generation claims. -->

@@ -1,27 +1,16 @@
 /**
- * Every piece of copy, link and biographical fact on the site lives here or in
- * `src/content/projects/*.md`. Editing this file is the only thing needed to
- * keep the site current — no component changes required.
- *
- * ⚠️  Fields marked `@verify` were carried over from the Weebly site or
- * reconstructed from public sources. Read through them once and correct
- * anything wrong or out of date before launch.
+ * Personal copy, links, and biography. Project stories live separately in
+ * `src/content/projects/*.md`.
  */
 
 export const site = {
   name: 'Jordan Thrash',
-  /**
-   * Shown beside the name in the header and used in structured data. Kept
-   * deliberately broad — the work spans apps, services, platforms and games,
-   * and a narrower title undersells it in both directions.
-   */
-  role: 'Software & App Developer',
-  /** @verify — city shown in the footer. Set to null to hide it. */
+  role: 'Game Developer & Backend Engineer',
   location: 'United States',
   url: 'https://jordanthrash.netlify.app',
 
   description:
-    'Software and app developer. I build apps, backends, platforms and games, end to end.',
+    'Jordan Thrash — game developer and backend engineer. Unity games, gameplay experiments, and professional work with Python, Go, AWS, and PostgreSQL.',
 } as const;
 
 /**
@@ -30,36 +19,39 @@ export const site = {
  * at the display size. `<em>` marks the accented word.
  */
 export const hero = {
-  headline: ['I build the', '<em>whole</em> system.'],
-  lede: "Apps, backends, platforms, games. Some of it pays the bills, some of it exists because I wanted it to. Either way I'd rather own the whole system than one layer of it.",
+  headline: ['Game developer.', '<em>Backend</em> engineer.'],
+  lede: 'Games brought me to programming. Today I build backend services professionally and make games in Unity in my own time. This is a collection of the games, experiments, and tools I’ve made along the way.',
 } as const;
 
-/**
- * @verify — this is written from your public work, not from your own words.
- * Worth replacing with your voice before launch.
- */
-export const about = {
+export const whyGames = {
+  heading: 'Why I keep making games',
   paragraphs: [
-    "I build things end to end. The service, the data model, the interface, whatever sits underneath: I'd rather own the whole shape of it than one layer. That's as true of a production backend as it is of a game I made because I wanted it to exist.",
-    'The range is wide on purpose. Services and the data behind them. Apps people actually open. The deployment and tooling around both, plus games where every system has to hold up in real time. Different constraints each time, same job: work out what the thing has to guarantee, then make it do that once real usage shows up.',
-    "Games are where a lot of this got sharp. They leave nowhere to hide. The physics resolves or it doesn't. The netcode syncs or it doesn't. Most of the index below came out of that, and the same instincts carry into everything else I build.",
+    'I started programming in high school. An HTML and CSS class in sophomore year showed me that I could make something of my own with code. That possibility stayed with me. I built a gaming PC soon after and started learning computer graphics and making games in Unity.',
+    'By senior year, I had published two games. They were unoptimized and unpolished, and I was proud of them. Ideas I had worked through at my desk had become something another person could play. Making that happen meant a lot to me.',
+    'I kept making games through college, where I studied computer science and engineering with a specialization in game design and computer graphics. I chose a career in software engineering for the stability and room it gave me for life outside work. I never lost my attachment to making games.',
+    'I still work on games in my free time. Much of that work never gets published, but I care about the process just as much: trying an idea, seeing how it feels to play, and changing it until it starts to feel like the game I had in mind.',
   ],
-  /**
-   * @verify — grouped so the section reads as capability areas rather than a
-   * keyword dump. Trim anything you would not want to be interviewed on.
-   */
+  pullQuote: 'They were unoptimized and unpolished, and I was proud of them.',
+} as const;
+
+export const about = {
+  heading: 'My work in backend engineering',
+  paragraphs: [
+    'My professional work spans batch processing, APIs, and the services and data behind them. At Capital One, I worked on rewards processing in Python and Java, and on Go APIs using AWS Lambda and DynamoDB.',
+    'I now work in backend engineering at Virta Health, with Kubernetes, PostgreSQL, and microservices. My day-to-day work involves the services behind a healthcare product, from the data they store to the infrastructure they run on.',
+  ],
   stack: [
     {
-      area: 'Applications',
-      items: ['TypeScript', 'React', 'Astro', 'Responsive UI', 'Accessibility'],
+      area: 'Backend languages',
+      items: ['Python', 'Go', 'Java'],
     },
     {
       area: 'Services & data',
-      items: ['Python', 'Node', 'PostgreSQL', 'REST & GraphQL APIs', 'Data pipelines'],
+      items: ['REST & GraphQL APIs', 'PostgreSQL', 'DynamoDB', 'Batch processing'],
     },
     {
-      area: 'Platform & tooling',
-      items: ['Docker', 'CI / CD', 'Cloud deployment', 'Observability', 'Performance'],
+      area: 'Cloud & infrastructure',
+      items: ['AWS Lambda', 'SQS / SNS', 'S3', 'Kubernetes'],
     },
     {
       area: 'Games & real-time',
@@ -76,55 +68,44 @@ export const about = {
 } as const;
 
 /**
- * @verify — every date, title and company. This is the section a recruiter
- * reads most closely. `end: null` renders as "Present". Set to `[]` to hide it.
+ * Period labels allow a previous role to omit a start date when it has not
+ * been supplied. Do not infer employment dates from graduation dates.
  */
 export const experience = [
   {
     role: 'Backend Software Engineer',
     company: 'Virta Health',
-    start: '2022',
+    start: 'Nov 2025',
     end: null,
+    period: 'Nov 2025–Present',
     summary:
-      'Backend services and data models for a virtual care platform. The APIs and infrastructure behind patient-facing products.',
-    tags: ['Python', 'PostgreSQL', 'APIs'],
+      'Backend engineering with microservices, PostgreSQL, and Kubernetes.',
+    tags: ['PostgreSQL', 'Kubernetes', 'Microservices'],
   },
   {
-    role: 'Independent Developer',
-    company: 'Client & product work',
-    start: '2021',
-    end: null,
+    role: 'Software Engineer, Associate → Senior Associate',
+    company: 'Capital One',
+    start: null,
+    end: '2025',
+    period: 'Through 2025',
     summary:
-      'Apps, sites and the backends behind them, built end to end for small businesses and for my own products.',
-    tags: ['TypeScript', 'React', 'Python', 'Netlify'],
-  },
-  {
-    role: 'Game Developer',
-    company: 'Thrash Gamedev',
-    start: '2019',
-    end: null,
-    summary:
-      'Designing and shipping Unity games and the developer tooling around them, from VR to procedural simulation.',
-    tags: ['Unity', 'C#', 'Game design'],
+      'Rewards batch processing in Python and Java, and API development in Go using AWS Lambda and DynamoDB. Promoted to Senior Associate in May 2024.',
+    tags: ['Python', 'Go', 'Java', 'AWS'],
   },
 ] as const;
 
-/** @verify — set to `[]` to drop the block entirely. */
 export const education = [
   {
     school: 'The Ohio State University',
-    credential: 'Computer Science & Engineering',
-    detail: 'Where I built Splittle and the first Unity projects.',
+    credential: 'B.S. Computer Science & Engineering',
+    detail: 'December 2021 · Specialization in Game Design & Computer Graphics',
   },
 ] as const;
 
-/**
- * @verify — the links below. The email address is confirmed correct.
- */
 export const contact = {
   email: 'jordanthrash52@gmail.com',
   /** Headline for the contact section. */
-  pitch: 'Open to product work, contract builds, and anything with an interesting system in it.',
+  pitch: 'Want to talk about a game, a backend problem, or a project of your own? Send me a note.',
   links: [
     {
       label: 'GitHub',
@@ -142,8 +123,8 @@ export const contact = {
 
 export const nav = [
   { label: 'Work', href: '/#work' },
-  { label: 'About', href: '/#about' },
-  { label: 'Skills', href: '/#skills' },
+  { label: 'Why games', href: '/#why-games' },
+  { label: 'Backend', href: '/#about' },
   { label: 'Contact', href: '/#contact' },
 ] as const;
 

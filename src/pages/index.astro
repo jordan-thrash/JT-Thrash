@@ -4,135 +4,115 @@ import Base from '../layouts/Base.astro';
 import Hero from '../components/Hero.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import ProjectIndex from '../components/ProjectIndex.astro';
-import { about, experience, education, contact } from '../data/site';
+import { whyGames, about, experience, education, contact } from '../data/site';
 
 const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.order - a.data.order
 );
+const highlights = projects.filter((project) => project.data.featured).slice(0, 3);
 ---
 
 <Base>
-  <Hero />
+  <Hero projects={highlights} />
 
-  <!-- Work ------------------------------------------------------------ -->
-  <section id="work" class="section">
+  <section id="why-games" class="section section-story" aria-label="Why games">
     <div class="container-page">
-      <SectionHeading
-        number="01"
-        title="The index"
-        lede={`${projects.length} projects, newest first. Open any one for the write-up.`}
-      />
-    </div>
-
-    <div class="container-page">
-      <ProjectIndex projects={projects} />
-    </div>
-  </section>
-
-  <!-- About ----------------------------------------------------------- -->
-  <section id="about" class="section">
-    <div class="container-page">
-      <SectionHeading number="02" title="What I build" />
-
-      <div class="body-grid">
+      <SectionHeading number="01" title={whyGames.heading} />
+      <div class="story-grid">
+        <div class="story-aside" data-reveal>
+          <p class="meta story-label">My first two games</p>
+          <blockquote class="story-quote display-sm">“{whyGames.pullQuote}”</blockquote>
+          <a class="story-link" href="#work">See what I’ve made since ↓</a>
+        </div>
         <div class="body-prose">
-          {
-            about.paragraphs.map((paragraph, i) => (
-              <p class:list={['paragraph', i === 0 && 'paragraph-lead']} data-reveal data-reveal-index={i}>
-                {paragraph}
-              </p>
-            ))
-          }
+          {whyGames.paragraphs.map((paragraph, i) => (
+            <p class="paragraph" data-reveal data-reveal-index={i}>{paragraph}</p>
+          ))}
         </div>
       </div>
     </div>
   </section>
 
-  <!-- Skills ---------------------------------------------------------- -->
-  <section id="skills" class="section">
+  <section id="work" class="section">
     <div class="container-page">
-      <SectionHeading number="03" title="What I work with" />
+      <SectionHeading
+        number="02"
+        title="Games, experiments & tools"
+        lede="Most of my personal projects start with something I want to play or a mechanic I want to try. Here are the games and the tools I’ve built around them."
+      />
+      <ProjectIndex projects={projects} />
+    </div>
+  </section>
 
-      <!-- A specification table: label in the margin, plain comma-separated
-           values. No boxes, no tags. -->
-      <dl class="spec">
-        {
-          about.stack.map((group, i) => (
+  <section id="about" class="section section-backend">
+    <div class="container-page">
+      <SectionHeading number="03" title={about.heading} />
+      <div class="body-grid">
+        <div class="body-prose">
+          {about.paragraphs.map((paragraph, i) => (
+            <p class:list={['paragraph', i === 0 && 'paragraph-lead']} data-reveal data-reveal-index={i}>
+              {paragraph}
+            </p>
+          ))}
+        </div>
+      </div>
+
+      <div id="experience" class="backend-detail">
+        <h3 class="subheading display-sm">Professional experience</h3>
+        <ol class="roles">
+          {experience.map((role, i) => (
+            <li class="role" data-reveal data-reveal-index={i}>
+              <span class="role-period meta">{role.period}</span>
+              <div class="role-body">
+                <h4 class="role-title">
+                  {role.company}<span class="role-company">{role.role}</span>
+                </h4>
+                <p class="role-summary">{role.summary}</p>
+              </div>
+              <span class="role-tech meta">{role.tags.join(', ')}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <div id="skills" class="backend-detail">
+        <h3 class="subheading display-sm">Tools I work with</h3>
+        <dl class="spec">
+          {about.stack.map((group, i) => (
             <div class="spec-row" data-reveal data-reveal-index={i}>
               <dt class="spec-label meta">{group.area}</dt>
               <dd class="spec-value">{group.items.join(', ')}</dd>
             </div>
-          ))
-        }
-      </dl>
+          ))}
+          {education.map((entry) => (
+            <div class="spec-row" data-reveal>
+              <dt class="spec-label meta">Education</dt>
+              <dd class="spec-value">
+                {entry.credential}, {entry.school}
+                <span class="spec-note">{entry.detail}</span>
+              </dd>
+            </div>
+          ))}
+        </dl>
+      </div>
     </div>
   </section>
 
-  <!-- Experience ------------------------------------------------------ -->
-  {
-    experience.length > 0 && (
-      <section id="experience" class="section">
-        <div class="container-page">
-          <SectionHeading number="04" title="Experience" />
-
-          <ol class="roles">
-            {experience.map((role, i) => (
-              <li class="role" data-reveal data-reveal-index={i}>
-                <span class="role-period meta">
-                  {role.start}—{role.end ?? 'Present'}
-                </span>
-                <div class="role-body">
-                  <h3 class="role-title">
-                    {role.role}, <span class="role-company">{role.company}</span>
-                  </h3>
-                  <p class="role-summary">{role.summary}</p>
-                </div>
-                <span class="role-tech meta">{role.tags.join(', ')}</span>
-              </li>
-            ))}
-          </ol>
-
-          {education.length > 0 && (
-            <dl class="spec spec-education">
-              {education.map((entry) => (
-                <div class="spec-row" data-reveal>
-                  <dt class="spec-label meta">Education</dt>
-                  <dd class="spec-value">
-                    {entry.credential}, {entry.school}
-                    {entry.detail && <span class="spec-note">{entry.detail}</span>}
-                  </dd>
-                </div>
-              ))}
-            </dl>
-          )}
-        </div>
-      </section>
-    )
-  }
-
-  <!-- Contact --------------------------------------------------------- -->
   <section id="contact" class="section section-contact">
     <div class="container-page">
-      <SectionHeading number="05" title="Get in touch" />
-
+      <SectionHeading number="04" title="Get in touch" />
       <div class="contact" data-reveal>
         <p class="contact-pitch">{contact.pitch}</p>
-
-        <a href={`mailto:${contact.email}`} class="contact-email display">
-          {contact.email}
-        </a>
-
+        <a href={`mailto:${contact.email}`} class="contact-email display">{contact.email}</a>
         <ul class="contact-links">
-          {
-            contact.links.map((link) => (
-              <li>
-                <a href={link.href} target="_blank" rel="noopener noreferrer" class="contact-link">
-                  <span class="contact-link-label">{link.label}</span>
-                  <span class="contact-link-handle meta">{link.handle}</span>
-                </a>
-              </li>
-            ))
-          }
+          {contact.links.map((link) => (
+            <li>
+              <a href={link.href} target="_blank" rel="noopener noreferrer" class="contact-link">
+                <span class="contact-link-label">{link.label}</span>
+                <span class="contact-link-handle meta">{link.handle}</span>
+              </a>
+            </li>
+          ))}
         </ul>
       </div>
     </div>
@@ -140,6 +120,62 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft)).so
 </Base>
 
 <style>
+  .section-story,
+  .section-backend {
+    background: var(--paper-sunk);
+  }
+
+  .story-grid {
+    display: grid;
+    gap: 2.5rem;
+    margin-top: 2.5rem;
+  }
+
+  .story-label {
+    color: var(--accent);
+    margin-bottom: 1.25rem;
+  }
+
+  .story-quote {
+    font-size: clamp(1.75rem, 3.1vw, 2.5rem);
+    line-height: 1.12;
+    max-width: 17ch;
+  }
+
+  .story-link {
+    display: inline-block;
+    margin-top: 1.75rem;
+    font-size: 0.9375rem;
+    text-decoration: underline;
+    text-decoration-color: var(--accent);
+    text-underline-offset: 0.3em;
+  }
+
+  @media (min-width: 900px) {
+    .story-grid {
+      grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+      gap: 5rem;
+      padding-left: 5rem;
+    }
+
+    .story-grid .body-prose {
+      grid-column: auto;
+    }
+  }
+
+  .backend-detail {
+    margin-top: 3.5rem;
+  }
+
+  .subheading {
+    font-size: 1.375rem;
+  }
+
+  .backend-detail .roles,
+  .backend-detail .spec {
+    margin-top: 1.25rem;
+  }
+
   .section {
     padding-block: clamp(3.5rem, 9vw, 6.5rem);
   }
@@ -227,9 +263,7 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft)).so
     color: var(--ink-faint);
   }
 
-  .spec-education {
-    margin-top: 3rem;
-  }
+
 
   /* Roles */
   .roles {
@@ -247,7 +281,7 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft)).so
 
   @media (min-width: 900px) {
     .role {
-      grid-template-columns: 9rem minmax(0, 1fr) 14rem;
+      grid-template-columns: 13rem minmax(0, 1fr) 12rem;
       gap: 2rem;
       align-items: start;
     }
@@ -271,6 +305,9 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft)).so
   }
 
   .role-company {
+    display: block;
+    margin-top: 0.4rem;
+    font-size: 1rem;
     font-weight: 400;
     color: var(--ink-muted);
   }

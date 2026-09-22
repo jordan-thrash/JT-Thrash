@@ -1,35 +1,30 @@
 ---
 title: Splittle
-summary: A timed puzzle game about splitting a ball and guiding every piece into a hole before the clock runs out.
-order: 90
+summary: Split a ball and guide the pieces into their holes before the timer runs out.
+order: 106
 year: '2019'
 kind: Game
-discipline: Puzzle
+discipline: Timed puzzle
 tech: ['Unity', 'C#', 'TextMesh Pro', 'Photoshop']
 featured: true
-links:
-  - label: 'itch.io'
-    href: 'https://jthrash52.itch.io/'
 cover: './covers/splittle.webp'
 ---
 
-Splittle runs on a single mechanic: a ball that splits, and a timer that doesn't
-care how many pieces you're suddenly responsible for. Every level asks whether
-you can route all of them into their holes before it expires.
+## One ball becomes several
 
-## What I built
+Splittle is a timed puzzle game about splitting a ball and getting the pieces
+into their holes. Each split gives you more to keep track of. The clock keeps counting down.
 
-I made this in my second year at Ohio State. It's the project where Unity stopped
-being something I followed tutorials in and started being something I could reason
-about. That showed up most in the UI layer, where I went deep on TextMesh Pro to
-get the timer and level feedback reading clearly on a phone screen.
+## Making the game
 
-It was also my first real pass at art. I built the game's assets in Photoshop,
-which turned out to be the part that taught me the most about scope: art is where
-a solo project quietly doubles in size if you let it.
+I built Splittle during my second year at Ohio State. Alongside the gameplay
+programming in Unity, I worked with TextMesh Pro for the interface and created
+art in Photoshop.
 
-## Takeaways
+The project gave me practice across the parts of a game that players see
+together: the mechanic, the artwork, and the information on screen.
 
-- One mechanic, fully explored, beats three half-built ones.
-- UI is gameplay. An unreadable timer is a broken timer.
-- Doing the art myself changed how I scoped every project after this one.
+<!-- Core premise, second-year timing, TextMesh Pro, and Photoshop are carried
+from the original portfolio and existing verified migration notes.
+https://jordanthrash.weebly.com/splittle.html.
+Removed the generic itch.io profile link, which currently lists only Retro UFO Shooter. -->

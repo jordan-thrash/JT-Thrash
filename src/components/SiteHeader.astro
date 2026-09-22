@@ -56,7 +56,7 @@ import { site, nav } from '../data/site';
     display: none;
   }
 
-  @media (min-width: 640px) {
+  @media (min-width: 1100px) {
     .brand-role {
       display: inline;
     }
@@ -64,10 +64,12 @@ import { site, nav } from '../data/site';
 
   .nav {
     display: flex;
+    flex-wrap: wrap;
     gap: 1.5rem;
   }
 
   .nav-link {
+    white-space: nowrap;
     color: var(--ink-muted);
     padding-block: 0.25rem;
     transition: color 0.2s ease;
@@ -100,7 +102,7 @@ import { site, nav } from '../data/site';
 
   /* The nav is four short words. Below 480px they wrap to a second line, which
      is fine and much better than hiding them behind a hamburger. */
-  @media (max-width: 479px) {
+  @media (max-width: 599px) {
     .header-inner {
       flex-direction: column;
       align-items: flex-start;

@@ -1,21 +1,21 @@
 ---
 title: Segmentel
-summary: 'A puzzle game built around segmentation: dividing and recombining space to solve each stage.'
+summary: A snake game with a top-hatted green character against a colorful space backdrop.
 order: 75
-year: '2023'
 kind: Game
-discipline: Puzzle
-tech: ['Unity', 'C#', 'Gameplay systems']
+discipline: Snake game
+tech: ['Unity', 'C#']
 featured: false
 cover: './covers/segmentel.webp'
 ---
 
-<!-- TODO: replace with the write-up from the old site's segmentel.html -->
+Segmentel takes the familiar shape of a snake game into space. Its bright green,
+segmented character wears a top hat and moves through a field of colored spheres
+against a star-filled background.
 
-## Systems
+The character and setting give this small Unity project a playful, slightly odd
+personality of its own.
 
-<!-- TODO: describe the core mechanic and the systems behind it -->
-
-Puzzle design is a constraint-authoring problem. The mechanic has to be simple
-enough to state in one sentence and deep enough that the twentieth level still
-has something to say with it.
+<!-- The original Weebly page could not be recovered. Premise and visual details
+are limited to the checked-in screenshot; no level structure or puzzle mechanics
+are claimed. -->

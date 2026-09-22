@@ -15,7 +15,6 @@ const { projects } = Astro.props;
     <span>Project</span>
     <span>Discipline</span>
     <span>Built with</span>
-    <span class="index-head-year">Year</span>
   </div>
 
   <ol class="index-rows">
@@ -40,8 +39,6 @@ const { projects } = Astro.props;
             <span class="row-kind">{project.data.discipline}</span>
 
             <span class="row-tech">{project.data.tech.join(', ')}</span>
-
-            <span class="row-year meta">{project.data.year}</span>
 
             {/* Small inline thumbnail, mobile only — the cursor preview does
                 this job on pointer devices. */}
@@ -123,7 +120,7 @@ const { projects } = Astro.props;
   /* Desktop: a real table row, columns aligned with the header above. The
      areas have to be redeclared rather than cleared — the children reference
      them by name, and `none` would leave those references dangling. */
-  @media (min-width: 900px) {
+  @media (min-width: 900px) and (hover: hover) and (pointer: fine) {
     .index-head {
       display: grid;
       grid-template-columns: var(--index-cols);
@@ -132,7 +129,7 @@ const { projects } = Astro.props;
 
     .row {
       grid-template-columns: var(--index-cols);
-      grid-template-areas: 'num title kind tech year';
+      grid-template-areas: 'num title kind tech';
       gap: 1.5rem;
       align-items: center;
       padding-block: 1.15rem;
@@ -165,12 +162,10 @@ const { projects } = Astro.props;
     }
 
     .row:hover .row-num,
-    .row:hover .row-year,
     .row:hover .row-kind,
     .row:hover .row-tech,
     .row:hover .row-status,
     .row:focus-visible .row-num,
-    .row:focus-visible .row-year,
     .row:focus-visible .row-kind,
     .row:focus-visible .row-tech,
     .row:focus-visible .row-status {
@@ -224,11 +219,6 @@ const { projects } = Astro.props;
   }
 
 
-  .row-year {
-    grid-area: year;
-    transition: color 0.2s ease;
-  }
-
   /* Mobile thumbnail — the cursor preview does this job on pointer devices. */
   .row-thumb {
     grid-area: thumb;
@@ -245,19 +235,11 @@ const { projects } = Astro.props;
     background: var(--paper-sunk);
   }
 
-  .row-year {
-    display: none;
-  }
-
-  @media (min-width: 900px) {
+  @media (min-width: 900px) and (hover: hover) and (pointer: fine) {
     .row-thumb {
       display: none;
     }
 
-    .row-year {
-      display: block;
-      text-align: right;
-    }
   }
 
   /* Cursor preview */

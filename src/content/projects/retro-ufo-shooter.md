@@ -1,24 +1,25 @@
 ---
 title: Retro UFO Shooter
-summary: 'An arcade shooter in the classic mold: escalating waves, tight controls, and a scoring loop built to make you try one more run.'
+summary: Turn, fire, and chase a high score through waves of UFOs in a pixel-art arcade shooter.
 order: 85
-year: '2024'
 kind: Game
 discipline: Arcade shooter
+status: Shipped
 tech: ['Unity', 'C#', 'Gameplay systems']
 featured: false
+links:
+  - label: 'Play in your browser'
+    href: 'https://jthrash52.itch.io/retro-ufo-shooter'
 cover: './covers/retro-ufo-shooter.webp'
 ---
 
-<!-- TODO: replace with the write-up from the old site's retro-ufo-shooter.html -->
+Retro UFO Shooter is a small arcade game about aiming at incoming UFOs and
+building a high score. It uses pixel art and a compact set of controls: turn your
+ship, line up a target, and fire as the next wave arrives.
 
-A deliberate exercise in restraint: no progression systems, no unlocks, no meta
-layer. Just a ship, waves of UFOs, and a score.
+## Play it
 
-## Systems
+The Unity game runs in your browser on itch.io. Use the left and right arrow keys
+to turn and the spacebar to shoot.
 
-Arcade shooters live or die on game feel, which is almost entirely a tuning
-problem. Input latency, acceleration curves, hit pause, screen shake, the exact
-number of frames a projectile takes to leave the ship. None of it shows up in a
-feature list. All of it decides whether the game feels responsive or feels like
-it's arguing with you.
+<!-- Source: https://jthrash52.itch.io/retro-ufo-shooter. -->
