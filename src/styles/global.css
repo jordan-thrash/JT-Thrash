@@ -24,7 +24,7 @@
   --paper-sunk: oklch(0.955 0.006 85);
   --ink: oklch(0.21 0.012 55);
   --ink-muted: oklch(0.48 0.011 55);
-  --ink-faint: oklch(0.63 0.009 55);
+  --ink-faint: oklch(0.51 0.009 55);
   --rule: oklch(0.885 0.008 75);
   --rule-strong: oklch(0.78 0.01 70);
 
@@ -35,7 +35,7 @@
 
   /* Column widths for the project index, shared by the header row and the
      rows themselves so they stay aligned. */
-  --index-cols: 3.5rem minmax(0, 1.35fr) minmax(0, 1fr) minmax(0, 1fr) 4rem;
+  --index-cols: 3.5rem minmax(0, 1.35fr) minmax(0, 1fr) minmax(0, 1fr);
 }
 
 @theme inline {
@@ -65,7 +65,7 @@
 
   html {
     scroll-behavior: smooth;
-    scroll-padding-top: 5rem;
+    scroll-padding-top: 7.5rem;
     -webkit-text-size-adjust: 100%;
   }
 
@@ -165,7 +165,8 @@
   transition-delay: var(--reveal-delay, 0ms);
 }
 
-.js-reveal [data-reveal].is-revealed {
+.js-reveal [data-reveal].is-revealed,
+.js-reveal [data-reveal]:focus-within {
   opacity: 1;
   transform: none;
 }

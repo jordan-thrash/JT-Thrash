@@ -1,11 +1,10 @@
 ---
 title: Maze Gen Project
-summary: A procedural maze generator built to compare generation algorithms by the quality of the mazes they produce, not just their runtime.
+summary: A configurable maze generator with a first-person game for exploring the result.
 order: 95
-year: '2019'
 kind: Tool
 discipline: Procedural generation
-tech: ['Unity', 'C#', 'Procedural generation']
+tech: ['Unity', 'C#', "Prim's algorithm"]
 featured: false
 links:
   - label: 'GitHub'
@@ -13,15 +12,20 @@ links:
 cover: './covers/maze-game.webp'
 ---
 
-<!-- TODO: replace with the write-up from the old site's maze-game.html -->
+## From a generated layout to a place to explore
 
-A generator that builds mazes procedurally and renders them in Unity, written to
-understand what actually separates the standard algorithms in practice.
+This project generates a maze that you can walk through in first person,
+collecting coins as you search for the exit. Playing inside the result gives the
+generator a purpose beyond drawing a pattern on a grid.
 
-## Systems
+## Controls for level design
 
-The differences between maze algorithms aren't about speed. They're about texture.
-Depth-first search gives you long winding corridors with almost no branching.
-Prim's gives you short, bushy, heavily branched layouts. Both count as "a maze"
-and both solve instantly, but they feel nothing alike to walk through, and that's
-the only measure that matters once a player has to be inside one.
+I used Prim's algorithm to generate the layouts and made the construction
+modular. A level designer can choose floor and wall types and configure randomly
+placed objects. The grid size, path dimensions, and random seed are adjustable.
+
+The generator handles construction. Those controls let a designer change both
+the layout and its visual setting without placing every wall by hand.
+
+<!-- Source: indexed original portfolio page,
+https://jordanthrash.weebly.com/maze-game.html. -->

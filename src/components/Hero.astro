@@ -1,12 +1,16 @@
 ---
-import { hero, contact } from '../data/site';
+import { hero } from '../data/site';
+import GameHighlights from './GameHighlights.astro';
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  projects: CollectionEntry<'projects'>[];
+}
+const { projects } = Astro.props;
 ---
 
 <section class="hero">
   <div class="container-page">
-    {/* The headline is the first thing on the page. There was a metadata rule
-        above it, but a second band of small-caps type directly under the site
-        header just read as a second header. */}
     <h1 class="hero-headline display">
       {
         hero.headline.map((line) => (
@@ -22,33 +26,35 @@ import { hero, contact } from '../data/site';
 
       <div class="hero-actions">
         <a href="#work" class="action">
-          The index
+          Explore my projects
           <span class="action-rule" aria-hidden="true"></span>
         </a>
-        <a href={`mailto:${contact.email}`} class="action">
-          Email
+        <a href="#about" class="action">
+          Backend experience
           <span class="action-rule" aria-hidden="true"></span>
         </a>
       </div>
     </div>
+    <GameHighlights projects={projects} />
   </div>
 </section>
 
 <style>
   .hero {
-    padding-top: clamp(4rem, 11vw, 9rem);
-    padding-bottom: clamp(3rem, 7vw, 5rem);
+    padding-top: clamp(3rem, 7vw, 5.5rem);
+    padding-bottom: clamp(2.5rem, 5vw, 4rem);
   }
 
   .hero-headline {
     /* Big. This is the one place on the site where type is the entire design. */
-    font-size: clamp(2.75rem, 10vw, 8.5rem);
-    max-width: 13ch;
+    font-size: clamp(2.5rem, 7.6vw, 6.5rem);
+    max-width: 100%;
   }
 
   .hero-line {
     display: block;
-    overflow: hidden;
+    overflow: clip;
+    padding-block: 0.06em;
   }
 
   .hero-line-inner {
@@ -74,7 +80,7 @@ import { hero, contact } from '../data/site';
   .hero-foot {
     display: grid;
     gap: 2rem;
-    margin-top: clamp(2.5rem, 6vw, 4rem);
+    margin-top: clamp(1.75rem, 4vw, 2.75rem);
     padding-top: 1.5rem;
     border-top: 1px solid var(--rule);
     animation: fade-in 0.9s var(--ease-out-expo) 0.4s both;
@@ -89,7 +95,7 @@ import { hero, contact } from '../data/site';
   }
 
   .hero-lede {
-    max-width: 46ch;
+    max-width: 58ch;
     font-size: clamp(1rem, 1.5vw, 1.125rem);
     line-height: 1.65;
     color: var(--ink-muted);
@@ -97,6 +103,7 @@ import { hero, contact } from '../data/site';
 
   .hero-actions {
     display: flex;
+    flex-wrap: wrap;
     gap: 2rem;
   }
 

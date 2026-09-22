@@ -1,24 +1,22 @@
 ---
 title: Horror Maze Project
-summary: A first-person horror game set in a procedurally generated maze, where the layout you learn is never the layout you get twice.
+summary: A first-person horror project set in a dark maze with red-lit corridors and creatures ahead.
 order: 80
-year: '2022'
 kind: Game
 discipline: First-person horror
-tech: ['Unity', 'C#', 'Procedural generation', 'AI']
+tech: ['Unity', 'C#']
 featured: false
 cover: './covers/horror-maze-project.webp'
 ---
 
-<!-- TODO: replace with the write-up from the old site's horror-maze-project.html -->
+This project places the player inside a maze at eye level. Narrow corridors and
+low light limit the view, while a red glow reveals a creature further down the
+passage.
 
-Horror works on the gap between what the player can see and what they can infer.
-A procedural maze widens that gap permanently. There's no memorizing the safe
-route, because the route changes every run.
+It explores the horror side of a setting I've returned to across several games:
+being inside a maze, unable to see what lies around the next corner.
 
-## Systems
-
-Combining procedural generation with horror pacing is harder than it sounds. A
-generator that doesn't understand tension will happily put the exit twenty feet
-from the spawn, or build a dead end so long the player quits before anything
-happens. So the generation pass answers to pacing rules, not just connectivity.
+<!-- Original write-up unavailable. Description follows the checked-in screenshot
+and existing first-person horror identity. Removed unsupported claims about
+pacing-aware generation, route guarantees, and layouts changing each run.
+ -->

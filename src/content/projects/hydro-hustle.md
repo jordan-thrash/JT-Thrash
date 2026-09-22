@@ -1,17 +1,22 @@
 ---
 title: Hydro Hustle
-summary: A water-powered arcade game built around fluid movement and pressure as a resource.
+summary: A fire-truck driving game set on the busy roads of a colorful, blocky city.
 order: 55
-year: '2023'
 kind: Game
-discipline: Physics arcade
-tech: ['Unity', 'C#', 'Physics simulation']
+discipline: Driving arcade
+tech: ['Unity', 'C#']
 featured: false
 cover: './covers/hydro-hustle.webp'
 ---
 
-<!-- TODO: replace with the write-up from the old site's hydro-hustle.html -->
+Hydro Hustle follows a fire truck through a bright, blocky city. Other vehicles
+share the road, and the interface tracks distance, money, and remaining hearts
+throughout the drive.
 
-## Systems
+The original artwork pairs that road view with a fire engine engulfed in flames,
+a fittingly chaotic image for the game.
 
-<!-- TODO: describe the core loop and the systems behind it -->
+<!-- The original Weebly page could not be recovered. This description sticks
+to the checked-in gameplay/promotional image; release availability and detailed
+mechanics need an original write-up. Removed unsupported fluid simulation and
+pressure-resource claims. -->

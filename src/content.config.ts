@@ -17,7 +17,8 @@ const projects = defineCollection({
       summary: z.string(),
       /** Sorts the grid; higher surfaces first. */
       order: z.number().default(0),
-      year: z.string(),
+      /** Omit when the development year has not been verified. */
+      year: z.string().optional(),
       /**
        * Broad category. Nothing is styled by it today — it exists so the index
        * can be grouped or filtered later without a migration. Add to the list
@@ -37,7 +38,7 @@ const projects = defineCollection({
        */
       status: z.enum(['Shipped', 'Playable', 'Prototype', 'In progress', 'Shelved']).optional(),
       tech: z.array(z.string()).min(1),
-      /** Pinned to the large hero slots at the top of the work grid. */
+      /** Pinned to the screenshot highlights on the homepage. */
       featured: z.boolean().default(false),
       /** Optional outbound links, rendered as buttons on the detail page. */
       links: z

@@ -20,8 +20,8 @@ import { execSync } from 'node:child_process';
 import sharp from 'sharp';
 
 const NAME = 'Jordan Thrash';
-const ROLE = 'Software & App Developer';
-const SPEC = 'Apps · Backends · Platforms · Games';
+const ROLE = 'Game Developer & Backend Engineer';
+const SPEC = 'Unity · Python · Go · AWS';
 const SITE = 'jordanthrash.netlify.app';
 
 const WIDTH = 1200;
@@ -75,16 +75,16 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${WIDTH}" height="${
 
   <!-- Masthead rule -->
   <line x1="80" y1="118" x2="${WIDTH - 80}" y2="118" stroke="${INK}" stroke-width="1.5"/>
-  <text x="80" y="102" font-family="${MONO}" font-size="20" letter-spacing="3" fill="${INK}">
+  <text x="80" y="102" font-family="${MONO}" font-size="17" letter-spacing="1.5" fill="${INK}">
     ${xml(NAME.toUpperCase())} — ${xml(ROLE.toUpperCase())}
   </text>
 
   <!-- Display lines, matching the site's wide/heavy register -->
-  <text x="78" y="352" font-family="${DISPLAY}" font-size="122" font-weight="800" font-stretch="expanded" fill="${INK}" letter-spacing="-4">
-    I build the
+  <text x="78" y="330" font-family="${DISPLAY}" font-size="98" font-weight="800" font-stretch="expanded" fill="${INK}" letter-spacing="-4">
+    Game developer.
   </text>
-  <text x="78" y="466" font-family="${DISPLAY}" font-size="122" font-weight="800" font-stretch="expanded" fill="${INK}" letter-spacing="-4">
-    <tspan fill="${ACCENT}">whole</tspan> system.
+  <text x="78" y="440" font-family="${DISPLAY}" font-size="98" font-weight="800" font-stretch="expanded" fill="${INK}" letter-spacing="-4">
+    <tspan fill="${ACCENT}">Backend</tspan> engineer.
   </text>
 
   <line x1="80" y1="534" x2="${WIDTH - 80}" y2="534" stroke="${INK}" stroke-opacity="0.18" stroke-width="1"/>

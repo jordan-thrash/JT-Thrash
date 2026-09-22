@@ -1,248 +1,109 @@
-# jordanthrash.com
+# Jordan Thrash’s portfolio
 
-Portfolio site — replaces the Weebly site at `jordanthrash.weebly.com`.
+Game development and backend engineering portfolio, built with Astro and
+Tailwind CSS v4 and hosted on Netlify. Static HTML with small scripts for scroll
+reveals and project previews; no client-side framework.
 
-Built with [Astro](https://astro.build) and Tailwind CSS v4, deployed to Netlify.
-Ships as fully static HTML with a few kilobytes of JavaScript (scroll reveal and
-the index hover preview) and no client-side framework.
-
----
-
-## Running it
-
-```bash
-npm install
-npm run dev      # http://localhost:4321
-npm run build    # → dist/
-npm run preview  # serve the built output
-npm run check    # TypeScript + Astro diagnostics
-```
+## Development
 
 Node 22 or newer.
 
----
-
-## Before you launch
-
-Three things need your attention. Everything else works as-is.
-
-### 0. Mark what each project actually is
-
-Every project takes an optional `status`:
-
-```yaml
-status: Prototype   # Shipped | Playable | Prototype | In progress | Shelved
+```bash
+npm ci
+npm run dev       # http://localhost:4321
+npm run check     # Astro and TypeScript diagnostics
+npm run build     # Static site in dist/
+npm run preview   # Serve the production build
+npm run lint:copy # Editorial heuristics; review findings in context
 ```
 
-Leave it out and the site claims nothing. Anything other than `Shipped` prints
-beside the title in the index, so an unfinished project can sit in the list
-honestly rather than being hidden or oversold. Nothing is marked right now,
-because only you know which is which.
+## Content and positioning
 
-### 1. Pull your screenshots off Weebly — do this first
+The homepage introduces both game development and backend engineering, then
+shows three games, Jordan’s personal story, the project archive, and professional
+experience. Game pages explain what the player does and Jordan’s contribution.
+Backend experience has its own section, with concrete languages, infrastructure,
+and work history.
 
-Done — all 13 real screenshots are in, with the untouched originals archived
-under `covers/_originals/`. Keep this section for reference if you ever need to
-re-run it.
+Personal copy, navigation, skills, and career details live in `src/data/site.ts`.
+The “Why I keep making games” section is based on Jordan’s own account of his
+start in high school. Keep that voice: direct, personal, and specific. Avoid
+turning every game into a lesson about production systems or making claims about
+outcomes and contributions without evidence.
+
+### Project pages
+
+Copy `src/content/projects/_example.md`, rename it, fill in its fields and body,
+and set `draft: false`. The filename becomes the `/work/` URL.
+
+- `order` controls the archive sequence; higher numbers appear first.
+- `featured: true` adds a project to the homepage highlights. The first three
+  featured projects in display order appear there.
+- `year` is optional. Omit it when the development date is unknown.
+- `status` is optional. Only use `Shipped` or `Playable` when verified.
+- `cover` points at a real image. Astro generates responsive image sizes.
+- `links` should point directly to a game, repository, or project page when one
+  is available.
+
+Source notes in the Markdown explain which original write-ups and project pages
+support the content. Where original descriptions are unavailable, the text stays
+brief rather than inventing mechanics or implementation details. The schema in
+`src/content.config.ts` checks frontmatter during the build.
+
+### Images
+
+Original screenshots are archived in `src/content/projects/covers/_originals/`.
+Run `npm run covers:process` to regenerate the WebP covers. Images keep their
+original proportions; CSS handles the surrounding space without cropping the
+subject. `npm run fetch:weebly` exists for recovery, but the archived originals
+mean it should not normally be needed.
+
+Run `npm run og` after updating the headline or role in
+`scripts/generate-og.mjs`. Those strings mirror `src/data/site.ts`. The social
+image generator uses locally installed Archivo, with a system-font fallback.
+
+## Design
+
+Warm paper, near-black type, and a vermillion accent. Archivo handles body and
+display text; JetBrains Mono handles labels. Keep the existing typographic
+hierarchy and simple rules when extending the site.
+
+Real screenshots are visible in the homepage highlights. The project archive
+has cursor previews on wide screens with a fine pointer, and inline thumbnails
+on narrow or touch screens. Motion respects `prefers-reduced-motion`. Content
+remains visible if the reveal script fails to load, and keyboard focus reveals
+any animated ancestor.
+
+## Deployment
+
+Netlify uses `netlify.toml`: build command `npm run build`, publish directory
+`dist`, Node 22. The production site is
+[https://jordanthrash.netlify.app](https://jordanthrash.netlify.app).
+
+`astro.config.mjs` uses Netlify’s `URL` for canonical tags, the sitemap, and
+`robots.txt`; local builds fall back to `http://localhost:4321`. Use the site’s
+production URL when preparing a manual deployment:
 
 ```bash
-npm install          # if you haven't already — the fetch needs sharp
-npm run fetch:weebly
+URL=https://jordanthrash.netlify.app npm run build
 ```
 
-It runs in two stages, on purpose:
+Legacy Weebly paths redirect to their corresponding project pages or homepage
+sections. Preserve those routes when renaming a project. The `#about`, `#skills`,
+and `#experience` anchors still work alongside the new `#why-games` section.
 
-1. **Download the originals** into `covers/_originals/`. This needs nothing but
-   Node, so a broken toolchain can't block the one step you can't redo later.
-2. **Build the covers** at `covers/<slug>.webp` — 1200x800, letterboxed onto the
-   site's paper color so nothing is cropped. Your Splittle capture is a 330x679
-   phone screenshot and Mayz is a square logo; a crop would cut the subject out
-   of both. WebP at quality 90: the same set as lossless PNG came to 9 MB,
-   which is a lot to carry in git and re-encode every build.
+Open a PR for review before merging changes to the production branch. Netlify
+can provide a Deploy Preview when repository integration is enabled.
 
-If sharp is missing, stage 1 still completes and it tells you to run
-`npm install && npm run covers:process`. Each download is checked against the
-dimensions recorded in the old gallery markup, so a wrong or substituted file
-gets flagged instead of quietly becoming a cover.
+## Other scripts
 
-Commit the originals as well as the covers. With them in the repo, covers can be
-rebuilt any time via `npm run covers:process` without ever touching Weebly
-again.
-
-The originals are now in the repo, so this never needs running again.
-
-### 2. Check the facts in `src/data/site.ts`
-
-Weebly blocks automated page fetches, so only your homepage source was available.
-Everything from your `about-me.html`, `my-skills.html` and `contact.html` pages
-had to be reconstructed. Fields needing review are marked `@verify`:
-
-- Your bio (`about.paragraphs`) — written from your public work, not your words
-- The capability areas in `about.stack` — trim anything you wouldn't want to be
-  interviewed on
-- Job titles, companies and dates in `experience`
-- `education`
-- The links in `contact.links`. The email address is confirmed correct.
-
-The project write-ups have the same issue. Files containing
-`<!-- TODO: replace with the write-up from the old site's ... -->` have
-placeholder body text — paste in your original copy from the corresponding
-Weebly page and delete the comment.
-
-Confident and carried over verbatim: **MyLogger** (from your GitHub description)
-and **Splittle** (from your public write-up).
-
-### On positioning
-
-The copy leads with **what gets built**, not with a job title. Apps, backends,
-platforms and games are named as four facets of the same practice, in that
-order, and no one of them is the identity. That's deliberate in both
-directions — the old Weebly site said "Game Developer" throughout, and framing
-it purely as backend engineering undersells the range just as badly.
-
-Two rules if you rewrite any of this:
-
-- **Don't lead with a label.** "Apps, backends, platforms, games" beats
-  "Software engineer who…". The title in `site.role` covers the header and the
-  structured data; the body copy shouldn't repeat it.
-- **Don't apologize for the games.** They're where the systems instincts got
-  sharp, not a phase you outgrew. The index is mostly games today because that's
-  what exists. As apps and services land the balance corrects itself, and none of
-  the copy needs to change.
-
-### Keeping the copy from reading like a machine
-
-```bash
-npm run lint:copy
-```
-
-This reads every string a visitor actually sees — `src/data/site.ts`, project
-frontmatter and bodies, and the hard-coded copy in the pages — and flags the
-patterns that make writing read as generated:
-
-| Check | What it catches |
+| Command | Purpose |
 | --- | --- |
-| `em-dash` | More than 0.7 em dashes per 100 words. The single loudest tell. |
-| `uncontracted` | "it is", "does not", "would rather". Nobody talks like that. |
-| `passive` | "was constrained by", "is generated" — say who did it. |
-| `buzzword` | delve, leverage, seamless, robust, at its core, that said… |
-| `not-just-but` | "It's not just X, it's Y" and its relatives. |
-| `triad` | Three-part lists used as a default rhythm rather than a choice. |
-| `monotone` | Sentence lengths clustered too tightly. Vary short and long. |
-| `en-GB` | colour, mould, memorise. You're American; the copy should be too. |
-| `empty-intensifier` | truly, really, incredibly. Cut them and nothing is lost. |
+| `npm run covers` | Generate placeholders for projects missing cover art |
+| `npm run covers:force` | Regenerate placeholders, overwriting current covers |
+| `npm run preview:file` | Build a standalone homepage preview; project links are disabled |
+| `npm run og` | Regenerate the social preview image |
 
-It exits non-zero when anything trips, so it works as a pre-commit hook or a CI
-step. The thresholds are opinions rather than laws — if a rule argues with a
-sentence that genuinely reads well, change the rule. It exists to catch drift
-across a lot of copy, not to win an argument about one line.
-
-Worth running after you paste in the old Weebly write-ups, since the checks only
-cover what is currently in the repo.
-
----
-
-## Editing content
-
-### Adding a project
-
-Copy `src/content/projects/_example.md`, rename it, fill it in and set
-`draft: false`. That file documents every field inline, so it's the fastest
-path — you shouldn't need this section.
-
-The filename becomes the URL: `vend-ready.md` → `/work/vend-ready`. Use
-`order` to place it in the index (highest first); leave gaps between numbers so
-you can slot things in later without renumbering.
-
-The schema in `src/content.config.ts` is enforced at build time, so a typo in a
-field name fails the build instead of rendering an empty row. If you add a
-category that `kind` doesn't cover, add it to the enum there — nothing is
-styled by it today, it exists so the index can be grouped or filtered later
-without a migration.
-
-No screenshot yet? Run `npm run covers` and it generates matching placeholder
-artwork for anything missing. It never overwrites a real image, so you can drop
-the screenshot in later and it just takes over.
-
-### Everything else
-
-All other copy — hero, about, skills, experience, contact, nav — lives in
-`src/data/site.ts`. No component edits needed.
-
----
-
-## Deploying to Netlify
-
-1. Push this repo to GitHub.
-2. In Netlify: **Add new site → Import an existing project**, pick the repo.
-3. Build settings are read from `netlify.toml`; you shouldn't need to type
-   anything. (Build `npm run build`, publish `dist`.)
-4. Deploy.
-
-### The site URL takes care of itself
-
-There's nothing to edit after the first deploy. `astro.config.mjs` reads
-`process.env.URL`, which Netlify sets to the site's primary address on every
-production build, and `robots.txt` is generated from the same value. Attach a
-custom domain later and canonical tags, Open Graph URLs, `sitemap.xml` and
-`robots.txt` all follow on the next deploy.
-
-Local builds fall back to `http://localhost:4321`, which never leaves your
-machine.
-
-### Redirects
-
-`netlify.toml` maps the old Weebly URLs to their new homes — `/splittle.html`
-→ `/work/splittle`, `/about.html` → `/#about`, and so on — so existing links and
-Google results land somewhere useful.
-
-All 13 old project pages are redirected individually. If you rename a project
-file, update its redirect too, or that old URL starts 404ing.
-
----
-
-## Design notes
-
-The visual language is print, not app UI. If you're editing styles, the rules
-that keep it coherent are:
-
-- **No cards, no pills, no chips.** Structure comes from hairline rules and
-  alignment. Metadata is set as plain text in a monospace face, never inside a
-  rounded container. Square corners, no shadows, no gradients, no blur.
-- **One theme** — warm paper, near-black ink, a single vermillion accent used
-  sparingly. Color is authored in OKLCH behind semantic variables in
-  `src/styles/global.css`; changing `--accent` there re-skins the whole site.
-- **One typeface, two registers.** Everything except monospace metadata is
-  Archivo. Display type is the same family pushed out on the variable axes —
-  `font-weight: 800`, `font-stretch: 116%`, tight negative tracking. Body text
-  sits at normal width and weight. The width axis is what separates a statement
-  from interface text, so reach for `font-stretch` before reaching for another
-  font. JetBrains Mono is the only second family, reserved for things that read
-  as a specification: years, column headers, labels, section numbers.
-- **The index is the centerpiece.** Projects are a numbered table, not a grid.
-  Hovering a row wipes it vermillion and floats a preview beside the cursor;
-  on touch and narrow screens that becomes an inline thumbnail instead.
-- **Motion** — scroll reveals, the hero line rise and the cursor preview all
-  respect `prefers-reduced-motion`. The reveal CSS is gated behind a JS-set
-  class, so if JavaScript fails nothing is ever left invisible.
-- **Images** — covers run through Astro's asset pipeline: resized, converted to
-  WebP, content-hashed and served with `srcset`.
-
-## Scripts
-
-| Command | What it does |
-| --- | --- |
-| `npm run lint:copy` | Checks the prose for machine-written tells (see below) |
-| `npm run fetch:weebly` | Downloads project screenshots from the old Weebly site |
-| `npm run covers:process` | Rebuilds covers from saved originals, no network needed |
-| `npm run covers` | Generates placeholder covers for projects missing one |
-| `npm run covers:force` | Regenerates every placeholder cover |
-| `npm run og` | Rebuilds `public/og.png`, the social share card |
-| `npm run preview:file` | Bundles the homepage into one shareable HTML file |
-
-Re-run `npm run og` after changing your name, role or the accent color.
-
-`npm run og` resolves fonts through the operating system rather than
-node_modules, so it needs [Archivo](https://fonts.google.com/specimen/Archivo)
-installed locally to match the site. Without it the card still renders, just in
-a fallback grotesque — the script warns you when that happens.
+The copy linter catches common wording patterns; it cannot decide whether a
+sentence sounds like Jordan. Review its findings rather than changing accurate,
+personal wording solely to satisfy a rhythm heuristic.

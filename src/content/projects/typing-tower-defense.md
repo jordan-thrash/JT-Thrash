@@ -1,25 +1,33 @@
 ---
 title: Typing War
-summary: A tower defense game where your keyboard is the weapon. Enemies fall to typed words, and accuracy is the only damage stat that matters.
+summary: Defend a castle by typing away monsters and spending your earnings on turrets and upgrades.
 order: 110
-year: '2024'
 kind: Game
-discipline: Tower defense
+discipline: Typing tower defense
 tech: ['Unity', 'C#', 'Gameplay systems']
 featured: true
 cover: './covers/typing-tower-defense.webp'
 ---
 
-<!-- TODO: replace with the write-up from the old site's typing-tower-defense.html -->
+## Keep the castle standing
 
-Typing War puts a typing trainer inside a tower defense loop. Enemies advance,
-each carrying a word, and the only way to stop them is to type it correctly before
-they reach the line. Speed decides how many you can handle; accuracy decides
-whether you get to try again.
+Monsters approach your castle with words to type. Completing a word takes down
+its enemy, but typing speed is only part of the game. You earn coins to spend on upgrades and automatic turrets, making decisions
+about your defenses as tougher enemies threaten the castle's health.
 
-## Systems
+The result combines the immediate pressure of a typing game with decisions
+about how to strengthen your defenses.
 
-The interesting problem here is input arbitration. When six enemies are on screen
-and the player starts typing, the game has to guess which target they meant, then
-commit to that guess in a way that feels fair rather than arbitrary. Getting the
-resolution rule right was most of the design work.
+## Building the defense
+
+The gameplay connects keyboard input to the words assigned to enemies, while
+the spawning and level systems control what the player faces next. I also built
+the health, coin, and upgrade logic around that loop.
+
+Enemies and bullets use object pooling. Reusing those objects keeps the game
+from creating and destroying them with every spawn or shot.
+
+<!-- Source: indexed original portfolio page,
+https://jordanthrash.weebly.com/typing-tower-defense.html.
+Removed unsupported claims about accuracy being the only damage stat and
+input-target arbitration being most of the design work. -->
